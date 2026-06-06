@@ -33,12 +33,19 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import * as assert from 'assert'
-import * as bs58 from 'bs58'
-import * as ByteBuffer from 'bytebuffer'
-import {createHash} from 'crypto'
-import * as secp256k1 from 'secp256k1'
+import assert from 'assert'
+import bs58 from 'bs58'
+import ByteBuffer from 'bytebuffer'
+import {secp256k1 as nobleSecp} from '@noble/curves/secp256k1'
+import {sha256 as nobleSha256} from '@noble/hashes/sha256'
+import {ripemd160 as nobleRipemd160} from '@noble/hashes/ripemd160'
+import {inspect as utilInspect} from 'util'
 import {VError} from 'verror'
+
+// Node 12+ uses Symbol.for('nodejs.util.inspect.custom') for the inspect
+// contract. The legacy `inspect()` method name is also preserved on each
+// class for backward compatibility with code that calls it explicitly.
+const INSPECT_SYMBOL: symbol = utilInspect.custom ?? Symbol.for('nodejs.util.inspect.custom')
 
 import {DEFAULT_ADDRESS_PREFIX, DEFAULT_CHAIN_ID} from './client'
 import {Types} from './steem/serializer'
@@ -54,14 +61,45 @@ export const NETWORK_ID = Buffer.from([0x80])
  * Return ripemd160 hash of input.
  */
 function ripemd160(input: Buffer | string): Buffer {
-    return createHash('ripemd160').update(input).digest()
+    const data = typeof input === 'string' ? Buffer.from(input) : input
+    return Buffer.from(nobleRipemd160(data))
 }
 
 /**
  * Return sha256 hash of input.
  */
 function sha256(input: Buffer | string): Buffer {
-    return createHash('sha256').update(input).digest()
+    const data = typeof input === 'string' ? Buffer.from(input) : input
+    return Buffer.from(nobleSha256(data))
+}
+
+/**
+ * Internal wrappers mapping the legacy `secp256k1` (v3.x) API onto
+ * @noble/curves. Public surface (PublicKey/PrivateKey/Signature/cryptoUtils)
+ * is unchanged; the golden-vector test ensures bit-identical output.
+ */
+function publicKeyVerify(key: Buffer): boolean {
+    try { nobleSecp.ProjectivePoint.fromHex(key); return true } catch { return false }
+}
+function privateKeyVerify(key: Buffer): boolean {
+    return key.length === 32 && nobleSecp.utils.isValidPrivateKey(key)
+}
+function publicKeyCreate(priv: Buffer): Buffer {
+    return Buffer.from(nobleSecp.getPublicKey(priv, true))
+}
+function ecSign(message: Buffer, priv: Buffer, extraEntropy: Buffer): {signature: Buffer, recovery: number} {
+    // lowS: false — steemd's canonical-form check (isCanonicalSignature below)
+    // is byte-pattern based, not low-S; the legacy code retried until canonical
+    // and we preserve that loop in PrivateKey.sign.
+    const sig = nobleSecp.sign(message, priv, {extraEntropy, lowS: false})
+    return {signature: Buffer.from(sig.toCompactRawBytes()), recovery: sig.recovery!}
+}
+function ecVerify(message: Buffer, sigBuf: Buffer, pub: Buffer): boolean {
+    return nobleSecp.verify(sigBuf, message, pub, {lowS: false})
+}
+function ecRecover(message: Buffer, sigBuf: Buffer, recovery: number): Buffer {
+    const sig = nobleSecp.Signature.fromCompact(sigBuf).addRecoveryBit(recovery)
+    return Buffer.from(sig.recoverPublicKey(message).toRawBytes(true))
 }
 
 /**
@@ -153,7 +191,7 @@ export class PublicKey {
     }
 
     constructor(public readonly key: Buffer, public readonly prefix = DEFAULT_ADDRESS_PREFIX) {
-        assert(secp256k1.publicKeyVerify(key), 'invalid public key')
+        assert(publicKeyVerify(key), 'invalid public key')
     }
 
     /**
@@ -162,7 +200,7 @@ export class PublicKey {
      * @param signature Signature to verify.
      */
     public verify(message: Buffer, signature: Signature): boolean {
-        return secp256k1.verify(message, signature.data, this.key)
+        return ecVerify(message, signature.data, this.key)
     }
 
     /**
@@ -184,6 +222,10 @@ export class PublicKey {
      */
     public inspect() {
         return `PublicKey: ${ this.toString() }`
+    }
+
+    public [INSPECT_SYMBOL]() {
+        return this.inspect()
     }
 
 }
@@ -229,7 +271,7 @@ export class PrivateKey {
     }
 
     constructor(private key: Buffer) {
-        assert(secp256k1.privateKeyVerify(key), 'invalid private key')
+        assert(privateKeyVerify(key), 'invalid private key')
     }
 
     /**
@@ -240,8 +282,8 @@ export class PrivateKey {
         let rv: {signature: Buffer, recovery: number}
         let attempts = 0
         do {
-            const options = {data: sha256(Buffer.concat([message, Buffer.alloc(1, ++attempts)]))}
-            rv = secp256k1.sign(message, this.key, options)
+            const extraEntropy = sha256(Buffer.concat([message, Buffer.alloc(1, ++attempts)]))
+            rv = ecSign(message, this.key, extraEntropy)
         } while (!isCanonicalSignature(rv.signature))
         return new Signature(rv.signature, rv.recovery)
     }
@@ -250,7 +292,7 @@ export class PrivateKey {
      * Derive the public key for this private key.
      */
     public createPublic(prefix?: string): PublicKey {
-        return new PublicKey(secp256k1.publicKeyCreate(this.key), prefix)
+        return new PublicKey(publicKeyCreate(this.key), prefix)
     }
 
     /**
@@ -267,6 +309,10 @@ export class PrivateKey {
     public inspect() {
         const key = this.toString()
         return `PrivateKey: ${ key.slice(0, 6) }...${ key.slice(-6) }`
+    }
+
+    public [INSPECT_SYMBOL]() {
+        return this.inspect()
     }
 
 }
@@ -296,7 +342,7 @@ export class Signature {
      * @param message 32-byte message that was used to create the signature.
      */
     public recover(message: Buffer, prefix?: string) {
-        return new PublicKey(secp256k1.recover(message, this.data, this.recovery), prefix)
+        return new PublicKey(ecRecover(message, this.data, this.recovery), prefix)
     }
 
     public toBuffer() {
@@ -333,7 +379,7 @@ function transactionDigest(transaction: Transaction | SignedTransaction, chainId
  * Return copy of transaction with signature appended to signatures array.
  * @param transaction Transaction to sign.
  * @param keys Key(s) to sign transaction with.
- * @param options Chain id and address prefix, compatible with {@link Client}.
+ * @param chainId 32-byte chain id (defaults to mainnet). Match `Client.chainId`.
  */
 function signTransaction(
     transaction: Transaction,
@@ -365,5 +411,5 @@ export const cryptoUtils = {
     ripemd160,
     sha256,
     signTransaction,
-    transactionDigest,
+    transactionDigest
 }

@@ -1,14 +1,15 @@
 import 'mocha'
-import * as assert from 'assert'
+import assert from 'assert'
 import {randomBytes} from 'crypto'
 
 import * as ds from './../src'
 
 const {Asset, PrivateKey, Client, HexBuffer} = ds
 
-import {getTestnetAccounts, randomString, agent} from './common'
+import {getTestnetAccounts, randomString, agent, skipIfNoTestnet} from './common'
 
 describe('operations', function() {
+    before(skipIfNoTestnet)
     this.slow(20 * 1000)
     this.timeout(60 * 1000)
 
@@ -42,7 +43,7 @@ describe('operations', function() {
         const op: ds.CustomOperation = ['custom', {
             required_auths: [acc1.username],
             id: ~~(Math.random() * 65535),
-            data: randomBytes(512),
+            data: randomBytes(512)
         }]
         const rv = await client.broadcast.sendOperations([op], acc1Key)
         const tx = await client.database.getTransaction(rv)
@@ -57,7 +58,7 @@ describe('operations', function() {
             required_auths: [acc1.username],
             required_posting_auths: [],
             id: 'something',
-            json: JSON.stringify(data),
+            json: JSON.stringify(data)
         }, acc1Key)
         const tx = await client.database.getTransaction(rv)
         assert.deepEqual(JSON.parse(tx.operations[0][1].json), data)
@@ -69,11 +70,11 @@ describe('operations', function() {
             from: acc1.username,
             to: acc2.username,
             amount: '0.001 TESTS',
-            memo: 'Hej på dig!',
+            memo: 'Hej på dig!'
         }, acc1Key)
         const [acc2af] = await client.database.getAccounts([acc2.username])
-        const old_bal = Asset.from(acc2bf.balance);
-        const new_bal = Asset.from(acc2af.balance);
+        const old_bal = Asset.from(acc2bf.balance)
+        const new_bal = Asset.from(acc2af.balance)
         assert.equal(new_bal.subtract(old_bal).toString(), '0.001 TESTS')
     })
 
@@ -106,7 +107,7 @@ describe('operations', function() {
             permlink,
             title: 'Hello world!',
             body: `My password is: ${ password }`,
-            json_metadata: JSON.stringify({tags: ['test', 'hello']}),
+            json_metadata: JSON.stringify({tags: ['test', 'hello']})
         }, {
             permlink, author: username,
             allow_votes: false,
@@ -117,7 +118,7 @@ describe('operations', function() {
                 [0, {beneficiaries: [
                     {weight: 10000, account: acc1.username}
                 ]}]
-            ],
+            ]
         }, postingWif)
 
         const [post] = await client.call('condenser_api', 'get_content', [username, permlink])
@@ -133,7 +134,7 @@ describe('operations', function() {
         const rv = await client.broadcast.updateAccount({
             account: acc1.username,
             memo_key: PrivateKey.fromLogin(acc1.username, acc1.password, 'memo').createPublic(client.addressPrefix),
-            json_metadata: JSON.stringify({foo}),
+            json_metadata: JSON.stringify({foo})
         }, key)
         const [acc] = await client.database.getAccounts([acc1.username])
         assert.deepEqual({foo}, JSON.parse(acc.json_metadata))
@@ -157,7 +158,7 @@ describe('operations', function() {
                 owner: ownerKey,
                 active: activeKey.toString(),
                 posting: {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]},
-                memoKey,
+                memoKey
             },
             metadata
         }, key)
@@ -215,7 +216,7 @@ describe('operations', function() {
         const op: ds.ChangeRecoveryAccountOperation = ['change_recovery_account', {
             account_to_recover: acc1.username,
             new_recovery_account: acc2.username,
-            extensions: [],
+            extensions: []
         }]
         const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'active')
         await client.broadcast.sendOperations([op], key)
@@ -228,7 +229,7 @@ describe('operations', function() {
         const op: ds.ReportOverProductionOperation = ['report_over_production', {
             reporter: acc1.username,
             first_block: b1,
-            second_block: b2,
+            second_block: b2
         }]
         try {
             await client.broadcast.sendOperations([op], acc1Key)

@@ -33,21 +33,11 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import 'regenerator-runtime/runtime'
-
-// Microsoft is keeping to their long-held tradition of shipping broken
-// standards implementations, this forces Edge to use the polyfill insted.
-// tslint:disable-next-line:no-string-literal
-if (global['navigator'] && /Edge/.test(global['navigator'].userAgent)) {
-  delete global['fetch'] // tslint:disable-line:no-string-literal
-}
-
-import 'core-js/es6/map'
-import 'core-js/es6/number'
-import 'core-js/es6/promise'
-import 'core-js/es6/symbol'
-import 'core-js/fn/array/from'
-import 'core-js/modules/es7.symbol.async-iterator'
-import 'whatwg-fetch'
+// Modern browsers (Chrome 42+, Firefox 39+, Safari 10.1+, Edge 14+) all ship
+// native `fetch`, `Promise`, `Symbol`, `Map`, async iterators, and async/await.
+// The legacy core-js / regenerator-runtime / whatwg-fetch / Edge-Legacy
+// polyfills the v0.11.x browser bundle pulled in are no longer required.
+// Node built-ins (Buffer, etc.) are polyfilled at bundle time by
+// esbuild-plugin-polyfill-node (see tsup.config.ts).
 
 export * from './index'

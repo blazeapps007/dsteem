@@ -33,7 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import * as assert from 'assert'
+import assert from 'assert'
 
 import {Client} from './../client'
 import {cryptoUtils, PrivateKey, PublicKey} from './../crypto'
@@ -52,7 +52,7 @@ import {
     DelegateVestingSharesOperation,
     Operation,
     TransferOperation,
-    VoteOperation,
+    VoteOperation
 } from './../steem/operation'
 import {SignedTransaction, Transaction, TransactionConfirmation} from './../steem/transaction'
 
@@ -123,11 +123,11 @@ export class BroadcastAPI {
      * @param key Private posting key of comment author.
      */
     public async commentWithOptions(comment: CommentOperation[1],
-                                    options: CommentOptionsOperation[1],
-                                    key: PrivateKey) {
+        options: CommentOptionsOperation[1],
+        key: PrivateKey) {
         const ops: Operation[] = [
             ['comment', comment],
-            ['comment_options', options],
+            ['comment_options', options]
         ]
         return this.sendOperations(ops, key)
     }
@@ -209,7 +209,7 @@ export class BroadcastAPI {
             {
                 creator,
                 extensions: [],
-                fee,
+                fee
             }
         ]
 
@@ -222,7 +222,7 @@ export class BroadcastAPI {
                 json_metadata: metadata ? JSON.stringify(metadata) : '',
                 memo_key,
                 new_account_name: username,
-                owner, posting,
+                owner, posting
             }
         ]
 
@@ -234,7 +234,7 @@ export class BroadcastAPI {
                 {
                     delegatee: username,
                     delegator: creator,
-                    vesting_shares: delegation,
+                    vesting_shares: delegation
                 }
             ]
             ops.push(delegate_op)
@@ -277,20 +277,20 @@ export class BroadcastAPI {
      * @param key Private key(s) used to sign transaction.
      */
     public async sendOperations(operations: Operation[],
-                                key: PrivateKey | PrivateKey[]): Promise<TransactionConfirmation> {
+        key: PrivateKey | PrivateKey[]): Promise<TransactionConfirmation> {
         const props = await this.client.database.getDynamicGlobalProperties()
 
         const ref_block_num = props.head_block_number & 0xFFFF
         const ref_block_prefix = Buffer.from(props.head_block_id, 'hex').readUInt32LE(4)
         const expiration = new Date(new Date(props.time + 'Z').getTime() + this.expireTime).toISOString().slice(0, -5)
-        const extensions = []
+        const extensions: any[] = []
 
         const tx: Transaction = {
             expiration,
             extensions,
             operations,
             ref_block_num,
-            ref_block_prefix,
+            ref_block_prefix
         }
 
         const result = await this.send(this.sign(tx, key))

@@ -1,4 +1,4 @@
-/* tslint:disable:no-string-literal */
+ 
 
 import { Client } from './../client'
 import { Account } from './../steem/account'
@@ -70,7 +70,7 @@ export class RCAPI {
     /**
      * Internal convenience method to reduce redundant code
      */
-    private _calculateManabar(max_mana: number, { current_mana, last_update_time }): Manabar {
+    private _calculateManabar(max_mana: number, { current_mana, last_update_time }: { current_mana: number | string; last_update_time: number }): Manabar {
         const delta: number = Date.now() / 1000 - last_update_time
         current_mana = Number(current_mana) + (delta * max_mana / 432000)
         let percentage: number = Math.round(current_mana / max_mana * 10000)

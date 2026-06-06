@@ -33,7 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import * as ByteBuffer from 'bytebuffer'
+import ByteBuffer from 'bytebuffer'
 
 import {PublicKey} from './../crypto'
 import {Asset} from './asset'
@@ -56,7 +56,7 @@ export class Authority implements AuthorityType {
             return new Authority({
                 account_auths: [],
                 key_auths: [[value, 1]],
-                weight_threshold: 1,
+                weight_threshold: 1
             })
         } else {
             return new Authority(value)

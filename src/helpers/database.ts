@@ -127,8 +127,8 @@ export class DatabaseAPI {
      * @param limit Number of results, max 1000.
      */
     public async getVestingDelegations(account: string,
-                                       from: string = '',
-                                       limit: number = 1000): Promise<VestingDelegation[]> {
+        from: string = '',
+        limit: number = 1000): Promise<VestingDelegation[]> {
         return this.call('get_vesting_delegations', [account, from, limit])
     }
 

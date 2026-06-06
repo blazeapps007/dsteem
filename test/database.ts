@@ -1,10 +1,11 @@
 import 'mocha'
-import * as assert from 'assert'
+import assert from 'assert'
 
 import {Client, Asset, Transaction, PrivateKey} from './../src'
-import {getTestnetAccounts, randomString, agent, TEST_NODE} from './common'
+import {getTestnetAccounts, randomString, agent, skipIfNoTestnet, TEST_NODE} from './common'
 
 describe('database api', function() {
+    before(skipIfNoTestnet)
     this.slow(500)
     this.timeout(20 * 1000)
 
@@ -72,7 +73,7 @@ describe('database api', function() {
             start_author: 'almost-digital',
             start_permlink: 're-pal-re-almost-digital-dsteem-a-strongly-typed-steem-client-library-20170702t131034262z',
             tag: 'almost-digital',
-            limit: 1,
+            limit: 1
         })
         assert.equal(r1.length, 1)
         assert.equal(r1[0].body, '☀️heroin for programmers')
@@ -120,7 +121,7 @@ describe('database api', function() {
                 id: 'rpc-params',
                 json: '{"foo": "bar"}'
             }]],
-            'extensions': [],
+            'extensions': []
         }
         const key = PrivateKey.fromLogin(acc.username, acc.password, 'posting')
         const stx = client.broadcast.sign(tx, key)

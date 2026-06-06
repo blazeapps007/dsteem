@@ -1,5 +1,5 @@
 import 'mocha'
-import * as assert from 'assert'
+import assert from 'assert'
 
 import {Asset, Price, getVestingSharePrice} from './../src'
 
@@ -68,7 +68,7 @@ describe('asset', function() {
     it('should get vesting share price', function() {
         const props: any = {
             total_vesting_fund_steem: '5.000 STEEM',
-            total_vesting_shares: '12345.000000 VESTS',
+            total_vesting_shares: '12345.000000 VESTS'
         }
         const price1 = getVestingSharePrice(props)
         assert.equal(price1.base.amount, 12345)
@@ -77,7 +77,7 @@ describe('asset', function() {
         assert.equal(price1.quote.symbol, 'STEEM')
         const badProps: any = {
             total_vesting_fund_steem: '0.000 STEEM',
-            total_vesting_shares: '0.000000 VESTS',
+            total_vesting_shares: '0.000000 VESTS'
         }
         const price2 = getVestingSharePrice(badProps)
         assert.equal(price2.base.amount, 1)

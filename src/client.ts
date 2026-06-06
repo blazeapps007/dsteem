@@ -33,7 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import * as assert from 'assert'
+import assert from 'assert'
 import {VError} from 'verror'
 import packageVersion from './version'
 
@@ -131,7 +131,7 @@ export interface ClientOptions {
      */
     timeout?: number
     /**
-     * Retry backoff function, returns milliseconds. Default = {@link defaultBackoff}.
+     * Retry backoff function, returns milliseconds. Defaults to `min(tries² × 100, 10000)`.
      */
     backoff?: (tries: number) => number
     /**
@@ -241,7 +241,7 @@ export class Client {
             id: '0',
             jsonrpc: '2.0',
             method: 'call',
-            params: [api, method, params],
+            params: [api, method, params]
         }
         const body = JSON.stringify(request, (key, value) => {
             // encode Buffers as hex strings instead of an array of bytes
@@ -255,7 +255,7 @@ export class Client {
             cache: 'no-cache',
             headers: {'User-Agent': `dsteem/${ packageVersion }`},
             method: 'POST',
-            mode: 'cors',
+            mode: 'cors'
         }
         if (this.options.agent) {
             opts.agent = this.options.agent
@@ -264,11 +264,11 @@ export class Client {
         if (api !== 'network_broadcast_api' && method.substring(0, 21) !== 'broadcast_transaction') {
             // bit of a hack to work around some nodes high error rates
             // only effective in node.js (until timeout spec lands in browsers)
-            fetchTimeout = (tries) => (tries + 1) * 500
+            fetchTimeout = (tries: number) => (tries + 1) * 500
         }
-        const response: RPCResponse = await retryingFetch(
+        const response = await retryingFetch(
             this.address, opts, this.timeout, this.backoff, fetchTimeout
-        )
+        ) as RPCResponse
         // resolve FC error messages into something more readable
         if (response.error) {
             const formatValue = (value: any) => {

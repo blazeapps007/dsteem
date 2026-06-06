@@ -1,7 +1,10 @@
 node_modules/
 lib/
+dist/
 coverage/
 .nyc_output/
 .testnetrc
 .idea
 .vscode
+SteemitPosts/
+*.tgz

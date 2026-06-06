@@ -37,7 +37,7 @@ import {EventEmitter} from 'events'
 import {PassThrough} from 'stream'
 import {VError} from 'verror'
 
-const fetch = global['fetch'] // tslint:disable-line:no-string-literal
+const fetch = global['fetch']  
 
 /**
  * Return a promise that will resove when a specific event is emitted.
@@ -89,8 +89,8 @@ export function copy<T>(object: T): T {
  * Fetch API wrapper that retries until timeout is reached.
  */
 export async function retryingFetch(url: string, opts: any, timeout: number,
-                                    backoff: (tries: number) => number,
-                                    fetchTimeout?: (tries: number) => number) {
+    backoff: (tries: number) => number,
+    fetchTimeout?: (tries: number) => number) {
     const start = Date.now()
     let tries = 0
     do {
@@ -109,12 +109,12 @@ export async function retryingFetch(url: string, opts: any, timeout: number,
             }
             await sleep(backoff(tries++))
         }
-    } while (true)
+    } while (true) // eslint-disable-line no-constant-condition
 }
 
 // Hack to be able to generate a valid witness_set_properties op
 // Can hopefully be removed when steemd's JSON representation is fixed
-import * as ByteBuffer from 'bytebuffer'
+import ByteBuffer from 'bytebuffer'
 import {PublicKey} from './crypto'
 import {Asset, PriceType} from './steem/asset'
 import {WitnessSetPropertiesOperation} from './steem/operation'

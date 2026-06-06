@@ -1,10 +1,11 @@
 import 'mocha'
-import * as assert from 'assert'
+import assert from 'assert'
 
 import { Client, Asset, Transaction, PrivateKey } from './../src'
-import { getTestnetAccounts, randomString, agent, TEST_NODE } from './common'
+import { getTestnetAccounts, randomString, agent, skipIfNoTestnet, TEST_NODE } from './common'
 
 describe('rc_api', function () {
+    before(skipIfNoTestnet)
     this.slow(500)
     this.timeout(20 * 1000)
 
@@ -20,7 +21,7 @@ describe('rc_api', function () {
     // _calculateManabar max_mana: number, { current_mana, last_update_time }
 
     it('calculateVPMana', function() {
-        let account: any = {
+        const account: any = {
             name: 'therealwolf',
             voting_manabar: {
                 current_mana: 130168665536029,
@@ -39,7 +40,7 @@ describe('rc_api', function () {
     })
 
     it('calculateRCMana', function() {
-        let rc_account = {
+        const rc_account = {
             account: 'therealwolf',
             rc_manabar: {
                 current_mana: '100000',
