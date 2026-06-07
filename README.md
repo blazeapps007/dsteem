@@ -1,7 +1,8 @@
 # dsteem
 
-[![CI](https://github.com/jnordberg/dsteem/actions/workflows/ci.yml/badge.svg)](https://github.com/jnordberg/dsteem/actions/workflows/ci.yml)
+[![CI](https://github.com/blazeapps007/dsteem/actions/workflows/ci.yml/badge.svg?branch=BlazeDevelopment)](https://github.com/blazeapps007/dsteem/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/dsteem.svg)](https://www.npmjs.com/package/dsteem)
+[![Docs](https://img.shields.io/badge/docs-typedoc-blue?style=flat-square)](https://blazeapps007.github.io/dsteem/)
 
 Robust [Steem blockchain](https://steem.io) RPC client for Node.js and browsers.
 
@@ -64,9 +65,16 @@ When using a bundler (webpack/vite/rollup), `import {Client} from 'dsteem'` reso
 
 ## API
 
-Full API reference: <https://jnordberg.github.io/dsteem/>
+Full API reference: <https://blazeapps007.github.io/dsteem/>
 
-The public surface preserved from v0.11.x: `Client`, `PrivateKey`, `PublicKey`, `Signature`, `cryptoUtils`, `Asset`, `Price`, `Transaction`, `Operation`, `Types`, all of the `*Operation` interfaces, `Blockchain`, `DatabaseAPI`, `BroadcastAPI`, `RCAPI`, and the `utils` helpers (including `buildWitnessUpdateOp`).
+Public surface (everything `v0.11.x` exported is still exported the same way):
+
+- **Core**: `Client`, `PrivateKey`, `PublicKey`, `Signature`, `cryptoUtils`
+- **Domain types**: `Asset`, `Price`, `Transaction`, `SignedTransaction`, `Operation`, `Types`, all of the `*Operation` interfaces
+- **API helpers**: `Blockchain`, `DatabaseAPI`, `BroadcastAPI`, `RCAPI`
+- **Utility helpers**: the `utils` namespace (including `buildWitnessUpdateOp`)
+
+New in `v0.12.0` — additive only (no breaking changes): `BroadcastAPI`, `CreateAccountOptions`, and the resource-credit interfaces (`RCAccount`, `RCParams`, `RCPool`, `Manabar`, `Resource`, `Pool`, `DynamicParam`, `PriceCurveParam`) are now directly importable from the package root, so TypeScript consumers can write `import type {Manabar} from 'dsteem'` instead of digging the type out of a class signature.
 
 ## Network
 

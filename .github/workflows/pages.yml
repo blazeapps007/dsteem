@@ -1,0 +1,57 @@
+name: Pages
+
+on:
+  # Build + deploy on every push to the development branch and to master.
+  push:
+    branches: [master, BlazeDevelopment]
+  # Build (but don't deploy) on PRs so docs changes are validated before merge.
+  pull_request:
+    branches: [master]
+  # Allow manual deploy from the Actions tab.
+  workflow_dispatch:
+
+# Cancel any in-progress Pages deploy when a newer commit lands, so we don't
+# race two `actions/deploy-pages` runs against the same Pages environment.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+# Minimum perms needed by `actions/deploy-pages`.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    name: build docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - run: npm install --no-audit --no-fund --legacy-peer-deps
+
+      - name: Generate API docs (typedoc 0.28)
+        run: npm run build:docs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    name: deploy to GitHub Pages
+    # Only deploy on push to the deployable branches, not on PRs.
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
