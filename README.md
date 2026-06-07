@@ -63,6 +63,26 @@ The browser bundle inlines a Node `Buffer` polyfill (~20 KB) — consumers don't
 
 When using a bundler (webpack/vite/rollup), `import {Client} from 'dsteem'` resolves to the ESM build automatically.
 
+## Browser Testing Harness
+
+A static HTML harness for **manual, form-driven testing of every dsteem operation** lives in [`Browser Testing/`](./Browser%20Testing/) and is deployed alongside the docs:
+
+- **Live**: <https://blazeapps007.github.io/dsteem/harness/>
+- **Coverage**: forms for all 47 Steem operations (account, content, wallet, power, market, escrow, witness, custom, governance, recovery/legacy)
+- **Lookup panel**: `getAccounts`, `getDynamicGlobalProperties`, RC/VP mana, raw `client.call` — no key required
+- **Safety**: defaults to `Build & Sign only`; broadcasting requires a per-form opt-in; keys are never persisted
+- **Install model**: pulls `dsteem` from the local repo via `"dsteem": "file:.."` — never from the npm registry — so the harness always tests what's in this tree
+
+Run it locally:
+
+```sh
+npm install && npm run build         # at repo root — produces dist/
+cd "Browser Testing" && npm install  # postinstall copies the IIFE bundle into lib/
+npm run serve                        # → http://localhost:8080
+```
+
+The Pages workflow ([.github/workflows/pages.yml](.github/workflows/pages.yml)) builds the harness in CI and serves it under `/harness/`. See [`Browser Testing/README.md`](./Browser%20Testing/README.md) for full safety rules and per-op notes.
+
 ## API
 
 Full API reference: <https://blazeapps007.github.io/dsteem/>
