@@ -1,12 +1,12 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["es2015", "esnext.asynciterable", "dom"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "target": "es5",
-    "types" : ["node", "verror"]
+    "rootDir": "..",
+    "noEmit": true,
+    "types": ["node", "verror", "mocha"]
   },
   "include": [
-    "*.ts"
+    "**/*.ts",
+    "../src/**/*.ts"
   ]
 }

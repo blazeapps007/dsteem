@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dsteem Browser Testing Harness</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="lib/dsteem.browser.global.js"></script>
+</head>
+<body>
+
+<div id="bundle-error" class="bundle-error" hidden>
+    <strong>dsteem global missing — bundle did not load.</strong>
+    Run <code>npm install</code> in this folder (after <code>npm run build</code> in the parent repo) to populate <code>lib/dsteem.browser.global.js</code>.
+</div>
+
+<header class="topbar">
+    <div class="topbar-row">
+        <div class="brand">
+            <span class="brand-name">dsteem</span>
+            <span class="brand-version" id="bundle-version">v?</span>
+            <span class="brand-tag">Browser Testing Harness</span>
+        </div>
+        <div class="net-banner" id="net-banner">MAINNET — broadcasts are real and irreversible</div>
+    </div>
+
+    <div class="topbar-row controls">
+        <label class="field">
+            <span class="field-label">RPC endpoint</span>
+            <select id="rpc-select">
+                <option value="https://api.steemit.com">api.steemit.com</option>
+                <option value="https://api.moecki.online">api.moecki.online</option>
+                <option value="__custom__">Custom...</option>
+            </select>
+            <input type="text" id="rpc-custom" placeholder="https://..." hidden>
+        </label>
+
+        <label class="field">
+            <span class="field-label">Account</span>
+            <input type="text" id="account-input" placeholder="myaccount" autocomplete="off">
+        </label>
+
+        <div class="key-panel">
+            <div class="key-mode">
+                <label><input type="radio" name="key-mode" value="wif" checked> WIF</label>
+                <label><input type="radio" name="key-mode" value="login"> Login</label>
+            </div>
+            <div id="key-wif-mode" class="key-mode-fields">
+                <input type="password" id="key-wif" placeholder="5K... (private key)" autocomplete="off">
+                <select id="key-role-wif">
+                    <option value="posting">posting</option>
+                    <option value="active">active</option>
+                    <option value="owner">owner</option>
+                    <option value="memo">memo</option>
+                </select>
+            </div>
+            <div id="key-login-mode" class="key-mode-fields" hidden>
+                <input type="text" id="login-user" placeholder="username" autocomplete="off">
+                <input type="password" id="login-pass" placeholder="password" autocomplete="off">
+                <select id="key-role-login">
+                    <option value="posting">posting</option>
+                    <option value="active">active</option>
+                    <option value="owner">owner</option>
+                    <option value="memo">memo</option>
+                </select>
+            </div>
+            <div class="key-derived">
+                <span class="muted">Pubkey:</span>
+                <code id="derived-pubkey">—</code>
+            </div>
+        </div>
+
+        <div class="mode-toggle">
+            <span class="field-label">Default mode</span>
+            <label><input type="radio" name="default-mode" value="build" checked> Build &amp; Sign only</label>
+            <label><input type="radio" name="default-mode" value="broadcast"> Build, Sign, Broadcast</label>
+        </div>
+    </div>
+</header>
+
+<main class="main">
+    <section class="lookups">
+        <details open>
+            <summary>Lookups (read-only — no key required)</summary>
+            <div id="lookups-panel" class="lookups-panel"><!-- populated by js/lookups.js --></div>
+        </details>
+    </section>
+
+    <section class="tabs-section">
+        <nav class="tabs" id="tabs">
+            <button class="tab active" data-tab="account">Account</button>
+            <button class="tab" data-tab="content">Content</button>
+            <button class="tab" data-tab="wallet">Wallet</button>
+            <button class="tab" data-tab="power">Power</button>
+            <button class="tab" data-tab="market">Market</button>
+            <button class="tab" data-tab="escrow">Escrow</button>
+            <button class="tab" data-tab="witness">Witness</button>
+            <button class="tab" data-tab="custom">Custom</button>
+            <button class="tab" data-tab="governance">Governance</button>
+            <button class="tab" data-tab="recovery">Recovery / Legacy</button>
+        </nav>
+
+        <div class="tab-panels">
+            <div class="tab-panel active" data-tab="account"></div>
+            <div class="tab-panel" data-tab="content"></div>
+            <div class="tab-panel" data-tab="wallet"></div>
+            <div class="tab-panel" data-tab="power"></div>
+            <div class="tab-panel" data-tab="market"></div>
+            <div class="tab-panel" data-tab="escrow"></div>
+            <div class="tab-panel" data-tab="witness"></div>
+            <div class="tab-panel" data-tab="custom"></div>
+            <div class="tab-panel" data-tab="governance"></div>
+            <div class="tab-panel" data-tab="recovery"></div>
+        </div>
+    </section>
+
+    <section class="output-section">
+        <div class="output-header">
+            <span>Output log</span>
+            <button id="output-clear" class="btn-tiny">Clear</button>
+        </div>
+        <div id="output" class="output"></div>
+    </section>
+</main>
+
+<footer class="footer">
+    <span>dsteem Browser Testing Harness · Manual op coverage · BSD-3-Clause</span>
+    <span class="muted">Keys are never persisted. Refresh to clear.</span>
+</footer>
+
+<script src="js/output.js"></script>
+<script src="js/form-builder.js"></script>
+<script src="js/lookups.js"></script>
+<script src="js/ops-account.js"></script>
+<script src="js/ops-content.js"></script>
+<script src="js/ops-wallet.js"></script>
+<script src="js/ops-power.js"></script>
+<script src="js/ops-market.js"></script>
+<script src="js/ops-escrow.js"></script>
+<script src="js/ops-witness.js"></script>
+<script src="js/ops-custom.js"></script>
+<script src="js/ops-governance.js"></script>
+<script src="js/ops-recovery.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

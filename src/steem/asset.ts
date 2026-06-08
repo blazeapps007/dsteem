@@ -33,8 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import * as assert from 'assert'
-import * as ByteBuffer from 'bytebuffer'
+import assert from 'assert'
 
 export interface SMTAsset {
     amount: string|number,
@@ -75,20 +74,20 @@ export class Asset {
      * @param symbol Symbol to use when created from number. Will also be used to validate
      *               the asset, throws if the passed value has a different symbol than this.
      */
-     public static from(value: string | Asset | number, symbol?: AssetSymbol) {
-         if (value instanceof Asset) {
-             if (symbol && value.symbol !== symbol) {
-                 throw new Error(`Invalid asset, expected symbol: ${ symbol } got: ${ value.symbol }`)
-             }
-             return value
-         } else if (typeof value === 'number' && Number.isFinite(value)) {
-             return new Asset(value, symbol || 'STEEM')
-         } else if (typeof value === 'string') {
-             return Asset.fromString(value, symbol)
-         } else {
-             throw new Error(`Invalid asset '${ String(value) }'`)
-         }
-     }
+    public static from(value: string | Asset | number, symbol?: AssetSymbol) {
+        if (value instanceof Asset) {
+            if (symbol && value.symbol !== symbol) {
+                throw new Error(`Invalid asset, expected symbol: ${ symbol } got: ${ value.symbol }`)
+            }
+            return value
+        } else if (typeof value === 'number' && Number.isFinite(value)) {
+            return new Asset(value, symbol || 'STEEM')
+        } else if (typeof value === 'string') {
+            return Asset.fromString(value, symbol)
+        } else {
+            throw new Error(`Invalid asset '${ String(value) }'`)
+        }
+    }
 
     /**
      * Return the smaller of the two assets.
@@ -133,38 +132,38 @@ export class Asset {
     /**
      * Return a new Asset instance with amount added.
      */
-     public add(amount: Asset | string | number): Asset {
-         const other = Asset.from(amount, this.symbol)
-         assert(this.symbol === other.symbol, 'can not add with different symbols')
-         return new Asset(this.amount + other.amount, this.symbol)
-     }
+    public add(amount: Asset | string | number): Asset {
+        const other = Asset.from(amount, this.symbol)
+        assert(this.symbol === other.symbol, 'can not add with different symbols')
+        return new Asset(this.amount + other.amount, this.symbol)
+    }
 
     /**
      * Return a new Asset instance with amount subtracted.
      */
-     public subtract(amount: Asset | string | number): Asset {
-         const other = Asset.from(amount, this.symbol)
-         assert(this.symbol === other.symbol, 'can not subtract with different symbols')
-         return new Asset(this.amount - other.amount, this.symbol)
-     }
+    public subtract(amount: Asset | string | number): Asset {
+        const other = Asset.from(amount, this.symbol)
+        assert(this.symbol === other.symbol, 'can not subtract with different symbols')
+        return new Asset(this.amount - other.amount, this.symbol)
+    }
 
     /**
      * Return a new Asset with the amount multiplied by factor.
      */
-     public multiply(factor: Asset | string | number): Asset {
-         const other = Asset.from(factor, this.symbol)
-         assert(this.symbol === other.symbol, 'can not multiply with different symbols')
-         return new Asset(this.amount * other.amount, this.symbol)
-     }
+    public multiply(factor: Asset | string | number): Asset {
+        const other = Asset.from(factor, this.symbol)
+        assert(this.symbol === other.symbol, 'can not multiply with different symbols')
+        return new Asset(this.amount * other.amount, this.symbol)
+    }
 
     /**
      * Return a new Asset with the amount divided.
      */
-     public divide(divisor: Asset | string | number): Asset {
-         const other = Asset.from(divisor, this.symbol)
-         assert(this.symbol === other.symbol, 'can not divide with different symbols')
-         return new Asset(this.amount / other.amount, this.symbol)
-     }
+    public divide(divisor: Asset | string | number): Asset {
+        const other = Asset.from(divisor, this.symbol)
+        assert(this.symbol === other.symbol, 'can not divide with different symbols')
+        return new Asset(this.amount / other.amount, this.symbol)
+    }
 
     /**
      * For JSON serialization, same as toString().
@@ -193,13 +192,13 @@ export class Price {
     /**
      * Convenience to create new Price.
      */
-     public static from(value: PriceType) {
-         if (value instanceof Price) {
-             return value
-         } else {
-             return new Price(Asset.from(value.base), Asset.from(value.quote))
-         }
-     }
+    public static from(value: PriceType) {
+        if (value instanceof Price) {
+            return value
+        } else {
+            return new Price(Asset.from(value.base), Asset.from(value.quote))
+        }
+    }
 
     /**
      * @param base  - represents a value of the price object to be expressed relatively to quote

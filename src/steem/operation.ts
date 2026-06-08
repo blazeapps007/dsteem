@@ -35,7 +35,7 @@
 
 import {PublicKey} from './../crypto'
 import {AuthorityType} from './account'
-import {Asset, Price, PriceType} from './asset'
+import {Asset, PriceType} from './asset'
 import {SignedBlockHeader} from './block'
 import {BeneficiaryRoute} from './comment'
 import {ChainProperties, HexBuffer} from './misc'

@@ -34,8 +34,6 @@
  */
 
 import {Client} from './../client'
-import {BlockHeader, SignedBlock} from './../steem/block'
-import {AppliedOperation} from './../steem/operation'
 import {iteratorStream, sleep} from './../utils'
 
 export enum BlockchainMode {

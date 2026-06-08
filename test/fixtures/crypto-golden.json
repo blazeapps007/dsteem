@@ -1,0 +1,295 @@
+{
+  "version": 1,
+  "hashes": [
+    {
+      "inputUtf8": "",
+      "inputHex": "",
+      "sha256Hex": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ripemd160Hex": "9c1185a5c5e9fc54612808977ee8f548b2258d31",
+      "doubleSha256Hex": "5df6e0e2761359d30a8275058e299fcc0381534545f55cf43e41983f5d4c9456"
+    },
+    {
+      "inputUtf8": "a",
+      "inputHex": "61",
+      "sha256Hex": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+      "ripemd160Hex": "0bdc9d2d256b3ee9daae347be6f4dc835a467ffe",
+      "doubleSha256Hex": "bf5d3affb73efd2ec6c36ad3112dd933efed63c4e1cbffcfa88e2759c144f2d8"
+    },
+    {
+      "inputUtf8": "abc",
+      "inputHex": "616263",
+      "sha256Hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+      "ripemd160Hex": "8eb208f7e05d987a9b044a8e98c6b087f15a0bfc",
+      "doubleSha256Hex": "4f8b42c22dd3729b519ba6f68d2da7cc5b2d606d05daed5ad5128cc03e6c6358"
+    },
+    {
+      "inputUtf8": "The quick brown fox jumps over the lazy dog",
+      "inputHex": "54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f67",
+      "sha256Hex": "d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592",
+      "ripemd160Hex": "37f332f68db77bd9d7edd4969571ad671cf9dd3b",
+      "doubleSha256Hex": "6d37795021e544d82b41850edf7aabab9a0ebe274e54a519840c4666f35b3937"
+    },
+    {
+      "inputUtf8": "dsteem golden fixture 0001",
+      "inputHex": "64737465656d20676f6c64656e20666978747572652030303031",
+      "sha256Hex": "9da0f17934787bf043b84e546a1601cfe6009aacc96b6413cab8e94e77992c9d",
+      "ripemd160Hex": "6fabface92d7ef640d9b0ab0b83046785eaf3a44",
+      "doubleSha256Hex": "0d498f8eea15affd7194ea5511687732b6f5d302f0686ff141f869d4ef943f7b"
+    },
+    {
+      "inputUtf8": "dsteem golden fixture 0002",
+      "inputHex": "64737465656d20676f6c64656e20666978747572652030303032",
+      "sha256Hex": "b8590a64e4eb1793d15a480636e16cd3d42a3dfb3b0d3021820534160a438dd4",
+      "ripemd160Hex": "2ed580939a04639afe1a3079c9a4a3bd28d3fd84",
+      "doubleSha256Hex": "875ab1e2f5484fc638d8e832d027c5eb0321aa871e273ff381f1302e1eb30bc5"
+    },
+    {
+      "inputUtf8": "dsteem golden fixture 0003",
+      "inputHex": "64737465656d20676f6c64656e20666978747572652030303033",
+      "sha256Hex": "d42f6336fe965aa45a60e5e3ef133a062e56f38c0847fdad8b8bbaa700c0677f",
+      "ripemd160Hex": "dc94af3c38725e95fec1420bc91be98974a8d162",
+      "doubleSha256Hex": "6a3be57b1b087cb9b4543c0104a255f0a0152418f8ce088cda26585680bfbf8e"
+    },
+    {
+      "inputUtf8": "dsteem golden fixture 0004",
+      "inputHex": "64737465656d20676f6c64656e20666978747572652030303034",
+      "sha256Hex": "d790fc09b1564471d084c2fafc857c7f844055fb63c3b71d37c727811f700034",
+      "ripemd160Hex": "a59a6c925caa62aee1f42ef6dca595374d8ab1ec",
+      "doubleSha256Hex": "aa82042ba0756f3f2b42489ca991586304d7fc7dfebc1f930f482a216572c81d"
+    },
+    {
+      "inputUtf8": "dsteem golden fixture 0005",
+      "inputHex": "64737465656d20676f6c64656e20666978747572652030303035",
+      "sha256Hex": "09dea31f5ea9c5354924870a8ebe2261c66da3289f6cd88b8d0298f1b7860a5d",
+      "ripemd160Hex": "935a354d5d70ccb525f7b7d376982d905ffe1f2b",
+      "doubleSha256Hex": "d14e393c97a946c77abbb781a6c3977c740110238028cf5e081f99203ab9aa70"
+    },
+    {
+      "inputUtf8": "««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««",
+      "inputHex": "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab",
+      "sha256Hex": "ec65c8798ecf95902413c40f7b9e6d4b0068885f5f324aba1f9ba1c8e14aea61",
+      "ripemd160Hex": "ae2313e9273fcdccc623a86f430c7cf110d2f83d",
+      "doubleSha256Hex": "cfc07871b2cf4b35a3c625c1eb0fc963bd0b18d7b6a44d8f4c0ed35f90d36b50"
+    }
+  ],
+  "signatures": [
+    {
+      "seed": "dsteem-seed-01",
+      "privKeyWif": "5JYxoN5vpneZb7Do18UbYboiy1zwjS8YpMCXqMPnkUff2WsvncH",
+      "pubKeyStr": "STM6jBtaVvaKx6wWmRkbnL67JWH5MCLf84GVQHkfY9ENugZWdo2h8",
+      "messageHex": "108f59bbbfe07b040f6524e3121b61aa1c2e0027004686556d361d00782fc9ce",
+      "signatureHex": "1f52c3ba9f868dfcb8bf10e33312882864e477ff1c0980ed6f37aa2f8c7126b1ec1cddaf6c302abb56f5b21988e3fb944342d05094a3fdef238c9bbd168160fb90",
+      "recoveredPubKeyStr": "STM6jBtaVvaKx6wWmRkbnL67JWH5MCLf84GVQHkfY9ENugZWdo2h8"
+    },
+    {
+      "seed": "dsteem-seed-02",
+      "privKeyWif": "5J9oTyBNsLP2wmdwcLUbNDxD2Rfrw1YYonTdTFWeRPZPSk93GmV",
+      "pubKeyStr": "STM65NJvGCieSM6L7amvXVNcXDgqzs7tDNwAcsyQBksyWhH9HG1MK",
+      "messageHex": "0c6ad5467660e5426d33e1f475ba8666f87ac0ca3790fcf5e2c7ba0aff881973",
+      "signatureHex": "1f76ef1f239a19a391e66836d9245fa3925788e8926cb6f85410b971c16fbe599307edae15896073efb929be17936d5346671836e29c7f0e1a318e7d645fba19d3",
+      "recoveredPubKeyStr": "STM65NJvGCieSM6L7amvXVNcXDgqzs7tDNwAcsyQBksyWhH9HG1MK"
+    },
+    {
+      "seed": "dsteem-seed-03",
+      "privKeyWif": "5KLzvEWowoZqXNiLApodei5xsdzgn82inwVhoQMBNrYoR7Subza",
+      "pubKeyStr": "STM616fij4P2ZZnG6ci7CLVw5gwuVipV2gLzRZ8gUb4sC1VEosTmM",
+      "messageHex": "c2937d1f1528b83c2789ed3ffff096b79d7fb0eceda5b9a8600bc4148f0d2b9e",
+      "signatureHex": "1f421db1013c0b19f2aac4161d551f2b65eb3a2972f22f01ecdc215a0744edfe311fdc26785f579867d5c5bb149c72446acb0e49e416cd18ecd016f6618362b56c",
+      "recoveredPubKeyStr": "STM616fij4P2ZZnG6ci7CLVw5gwuVipV2gLzRZ8gUb4sC1VEosTmM"
+    },
+    {
+      "seed": "dsteem-seed-04",
+      "privKeyWif": "5JENBhHxQGCxwTUyRNT1qPKn7CQT9JJf7iPhgmn7aBvqcq5HZx3",
+      "pubKeyStr": "STM5KrC5XQ3zUyYe7ukw2gZhXkL9qC2S4hvhgTHnwVj9u8qMfH3xZ",
+      "messageHex": "7215a43250f03e1be43da78bb7f8f2a6a49fe022cfcaaabd8c0ff94302acba5d",
+      "signatureHex": "206e431c4370020f7294a5f29987f30ac5f07c8bcdebca22cea3a25217e12decc803c664c2562340eed232b9794a4b890435c3a5c0887e38df5870bbc41e88c39c",
+      "recoveredPubKeyStr": "STM5KrC5XQ3zUyYe7ukw2gZhXkL9qC2S4hvhgTHnwVj9u8qMfH3xZ"
+    },
+    {
+      "seed": "dsteem-seed-05",
+      "privKeyWif": "5K39WKMCGCtiqs8Da3RmvqEoqhuCxX44dh69MV9qcB3iyn5HPpc",
+      "pubKeyStr": "STM6sq9Q5g4tvg9oKv8mZ41meLaFSJWMkAgxYi6K82cmDwiQhosGT",
+      "messageHex": "942d0a41a60f7bb44b82e6dca121d924f354a572f6137b7462d5c702be9613b9",
+      "signatureHex": "1f3ea4da16b6e895ebbffe3e293d43987994b8f10e150c39990e51b915efa695ce4c66fa6abb6d1284c6d4d80a8c2328022e9ef67c487f91ca710f6be8fe7a12b7",
+      "recoveredPubKeyStr": "STM6sq9Q5g4tvg9oKv8mZ41meLaFSJWMkAgxYi6K82cmDwiQhosGT"
+    },
+    {
+      "seed": "dsteem-seed-06",
+      "privKeyWif": "5KeZ1BmyLZa8iiCqzVKTFYsYbYRFYuV5kkBE8oDcEDjwcVtxQs1",
+      "pubKeyStr": "STM7fsdPzqEM6TzCtSSjgY4WnrTK6gNUFPyWcBgerJZJRmkVuAzFM",
+      "messageHex": "a5bd287be0d9612f76686ea4871f11847b6bd7a2762b99f58756b9e233b251de",
+      "signatureHex": "1f2257a4799b31a243181dab08ad2a9da2bf35bb3c8eabf0cf47d7d9d82edbc76a4bd8e0aac5dea53a69244f0f382a76397e6941972e77ce610f3fb3d8da74bb93",
+      "recoveredPubKeyStr": "STM7fsdPzqEM6TzCtSSjgY4WnrTK6gNUFPyWcBgerJZJRmkVuAzFM"
+    },
+    {
+      "seed": "dsteem-seed-07",
+      "privKeyWif": "5KAXR4fw5xbbYfkhnj1y571RetnTLumUaNH9enr8eraGv68N5w7",
+      "pubKeyStr": "STM8MeTvepfQ7q7fEaNKr23unVoxJfKgJ3ndbVB9zp5NDbYQZBw7S",
+      "messageHex": "f45653a4956ca02c6336f39222d2a9782370bfe59a2b95e8c2eb417ad9e26770",
+      "signatureHex": "1f703ab3245e6c3abc8f042dd90e72660ac812969c57b9b431cbf56d443de0ff4e1d7843b58bf077f4bc2f8933503b41a29ab2874da97385b75ef24b93a90f2f7e",
+      "recoveredPubKeyStr": "STM8MeTvepfQ7q7fEaNKr23unVoxJfKgJ3ndbVB9zp5NDbYQZBw7S"
+    },
+    {
+      "seed": "dsteem-seed-08",
+      "privKeyWif": "5Huy7tuMCTvWSHK3HPNi21sEyTrFDPyrpXZmMYr5NcxpmBy3LkU",
+      "pubKeyStr": "STM5gSaAmuihsDewG2PdagDcDikgVVy89S9SrnLDz6WycmSifZ1Rc",
+      "messageHex": "f9d6e94f9070974cf97e5620b25fd39b9b1e5e240ea811054c89882e62efa68d",
+      "signatureHex": "1f6a842ea2ca3bba039c03fcf87ffab335c58bf24bc7cdc5d83058ba82a9cdd5f954118b73032404032b527d4ec7959333398fd8d8d2f3dff6f3e9ed807848b5d7",
+      "recoveredPubKeyStr": "STM5gSaAmuihsDewG2PdagDcDikgVVy89S9SrnLDz6WycmSifZ1Rc"
+    },
+    {
+      "seed": "dsteem-seed-09",
+      "privKeyWif": "5KAhWSxYtL7xdBA4Ys9DZ7cwXKGvKoTGmwy29tCqLnmguwcmyNb",
+      "pubKeyStr": "STM7UUK7fpaBH3uXfNdLQky2s5GbeNtaR6Z8p6BfLuC9CJu2JQX8w",
+      "messageHex": "95c7dbc12762533365a35e859d6e13f0f600cf83ec1d9d35809e20102b2ba793",
+      "signatureHex": "1f2059e7d2ae51d03a4d9434c06ad542e56261020be525e52ad2187e83eacb54bb1513e22e8b7092623fad8edc34e5e55a1f2cce833597eff9b280957ea05d5c12",
+      "recoveredPubKeyStr": "STM7UUK7fpaBH3uXfNdLQky2s5GbeNtaR6Z8p6BfLuC9CJu2JQX8w"
+    },
+    {
+      "seed": "dsteem-seed-10",
+      "privKeyWif": "5KggPCf9wkGpJZ9r61arhv3bpvyKKqsG1Y7FRqNz5E8oSRFvQH6",
+      "pubKeyStr": "STM5fjkLsJticqz75eihihoaDcLwk98MiGfadzrFn2KgnEBoG659H",
+      "messageHex": "723e992d6c17ea8b2cd40f2a2e965520ddcfc1ed25bd60c050fc19ea1f7f7ec0",
+      "signatureHex": "200caedce250824de80ba303c54f072ea8c5a9c98e0bf4a4fb32991768807e3bf57b84585c764613f2f83a5aca131be5fa674389bb15f156658130cda9ddcd203d",
+      "recoveredPubKeyStr": "STM5fjkLsJticqz75eihihoaDcLwk98MiGfadzrFn2KgnEBoG659H"
+    }
+  ],
+  "transactions": [
+    {
+      "label": "mainnet-vote",
+      "chainIdHex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "seed": "dsteem-seed-01",
+      "privKeyWif": "5JYxoN5vpneZb7Do18UbYboiy1zwjS8YpMCXqMPnkUff2WsvncH",
+      "transaction": {
+        "ref_block_num": 1234,
+        "ref_block_prefix": 305419896,
+        "expiration": "2025-01-01T00:00:00",
+        "operations": [
+          [
+            "vote",
+            {
+              "voter": "alice",
+              "author": "bob",
+              "permlink": "hello",
+              "weight": 10000
+            }
+          ]
+        ],
+        "extensions": []
+      },
+      "digestHex": "67608677fd994d900013803b2dcc8b5129feccfe81a42573d71c003fc7fcbb55",
+      "signatureHex": "1f1c53cac3e39ce92286d1c36eae6020446d430cd84dd69b4f18eb9f4bd25570b25754faff1790cbb5332fa3b43dff092d1a6db1e4216199c07c01cd665f7857f9"
+    },
+    {
+      "label": "mainnet-transfer",
+      "chainIdHex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "seed": "dsteem-seed-02",
+      "privKeyWif": "5J9oTyBNsLP2wmdwcLUbNDxD2Rfrw1YYonTdTFWeRPZPSk93GmV",
+      "transaction": {
+        "ref_block_num": 5,
+        "ref_block_prefix": 3735928559,
+        "expiration": "2025-06-15T12:34:56",
+        "operations": [
+          [
+            "transfer",
+            {
+              "from": "alice",
+              "to": "bob",
+              "amount": "1.000 STEEM",
+              "memo": "hi"
+            }
+          ]
+        ],
+        "extensions": []
+      },
+      "digestHex": "72a0b9a69c8e713d42865966a1150a08dd900e607e36268c3777fae0053348cb",
+      "signatureHex": "1f261d19cb2fd9b5e7f46b74dddbdcb728adc63a0bd2a79777c2bc08cd77f8389133888bc36332f5cd02bcd3a6cffa9929b8b6274e4aa9c1cab7cecce0212c6d14"
+    },
+    {
+      "label": "testnet-custom_json",
+      "chainIdHex": "79276aea5d4877d9a25892eaa01b0adf019d3e5cb12a97478df3298ccdd01673",
+      "seed": "dsteem-seed-03",
+      "privKeyWif": "5KLzvEWowoZqXNiLApodei5xsdzgn82inwVhoQMBNrYoR7Subza",
+      "transaction": {
+        "ref_block_num": 99,
+        "ref_block_prefix": 287454020,
+        "expiration": "2025-12-31T23:59:59",
+        "operations": [
+          [
+            "custom_json",
+            {
+              "required_auths": [],
+              "required_posting_auths": [
+                "alice"
+              ],
+              "id": "follow",
+              "json": "[\"follow\",{\"follower\":\"alice\",\"following\":\"bob\",\"what\":[\"blog\"]}]"
+            }
+          ]
+        ],
+        "extensions": []
+      },
+      "digestHex": "89602c1f2fc373c2bca317ec20bae5a69101f936bc4374138d28a8fb26efb137",
+      "signatureHex": "1f38e5d721c42c7ddfab748ac247544a19d5ef2551e4daceb64c390d56a5bb841b78c9ae6ef5e91f513daf331268522e3353e83cc11722755c918159fff0b44ace"
+    },
+    {
+      "label": "mainnet-multi-op",
+      "chainIdHex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "seed": "dsteem-seed-04",
+      "privKeyWif": "5JENBhHxQGCxwTUyRNT1qPKn7CQT9JJf7iPhgmn7aBvqcq5HZx3",
+      "transaction": {
+        "ref_block_num": 42,
+        "ref_block_prefix": 3405691582,
+        "expiration": "2025-07-04T00:00:00",
+        "operations": [
+          [
+            "vote",
+            {
+              "voter": "a",
+              "author": "b",
+              "permlink": "c",
+              "weight": -10000
+            }
+          ],
+          [
+            "vote",
+            {
+              "voter": "a",
+              "author": "b",
+              "permlink": "d",
+              "weight": 5000
+            }
+          ]
+        ],
+        "extensions": []
+      },
+      "digestHex": "e6dd84d90b24c187178998cc9e6b293421f592ff85082a2362f714e32a36ae61",
+      "signatureHex": "200f9a281b0dbfa33e54bbbaf20f514d8d460ae983fe2e78ef903173af3416d107748d3cd43a80cbcfb1e6dc685a721514eb1c1daf40310a159a7995f70c099a69"
+    },
+    {
+      "label": "mainnet-empty-extensions",
+      "chainIdHex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "seed": "dsteem-seed-05",
+      "privKeyWif": "5K39WKMCGCtiqs8Da3RmvqEoqhuCxX44dh69MV9qcB3iyn5HPpc",
+      "transaction": {
+        "ref_block_num": 0,
+        "ref_block_prefix": 0,
+        "expiration": "2020-01-01T00:00:00",
+        "operations": [
+          [
+            "transfer",
+            {
+              "from": "x",
+              "to": "y",
+              "amount": "0.001 STEEM",
+              "memo": ""
+            }
+          ]
+        ],
+        "extensions": []
+      },
+      "digestHex": "1e56a71ff30ae37aa65f8857503cf21745d2573cad0b3eb2539f581a55b1e115",
+      "signatureHex": "206dc39e2da3def7f2a4ef331b60a1b336bacb9b158b55ff94e0b390e61153d2841994de9ef8ede024b42406586883d3a909e71007d4c92d6b981bed7b592824ea"
+    }
+  ]
+}

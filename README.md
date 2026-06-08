@@ -1,146 +1,130 @@
+# @blazeapps/dsteem
 
-# [dsteem](https://github.com/jnordberg/dsteem) [![Build Status](https://img.shields.io/circleci/project/github/jnordberg/dsteem.svg?style=flat-square)](https://circleci.com/gh/jnordberg/workflows/dsteem) [![Coverage Status](https://img.shields.io/coveralls/jnordberg/dsteem.svg?style=flat-square)](https://coveralls.io/github/jnordberg/dsteem?branch=master) [![Package Version](https://img.shields.io/npm/v/dsteem.svg?style=flat-square)](https://www.npmjs.com/package/dsteem)
+[![CI](https://github.com/blazeapps007/dsteem/actions/workflows/ci.yml/badge.svg?branch=BlazeDevelopment)](https://github.com/blazeapps007/dsteem/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@blazeapps/dsteem.svg)](https://www.npmjs.com/package/@blazeapps/dsteem)
+[![Docs](https://img.shields.io/badge/docs-typedoc-blue?style=flat-square)](https://blazeapps007.github.io/dsteem/)
 
-Robust [steem blockchain](https://steem.io) client library that runs in both node.js and the browser.
+Modernized fork of [`dsteem`](https://github.com/jnordberg/dsteem) — a robust [Steem blockchain](https://steem.io) RPC client for Node.js and browsers. Published as `@blazeapps/dsteem` so the original `dsteem@0.11.x` on npm is untouched; the public API is unchanged so a drop-in import-rename is the only consumer change.
 
-* [Demo](https://comments.steem.vc) ([source](https://github.com/jnordberg/dsteem/tree/master/examples/comment-feed))
-* [Code playground](https://playground.steem.vc)
-* [Documentation](https://jnordberg.github.io/dsteem/)
-* [Bug tracker](https://github.com/jnordberg/dsteem/issues)
+- Pure-JS cryptography ([`@noble/curves`](https://github.com/paulmillr/noble-curves), [`@noble/hashes`](https://github.com/paulmillr/noble-hashes)) — no native bindings, no `node-gyp`, no prebuilds to verify
+- Dual ESM + CommonJS distribution with TypeScript declarations
+- Single-file browser bundle (UMD/IIFE, global `dsteem`)
+- Same public API as v0.11.x — drop-in upgrade
 
----
+## Install
 
-**note** As of version 0.7.0 WebSocket support has been removed. The only transport provided now is HTTP(2). For most users the only change required is to swap `wss://` to `https://` in the address. If you run your own full node make sure to set the proper [CORS headers](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) if you plan to access it from a browser.
-
----
-
-
-Browser compatibility
----------------------
-
-[![Build Status](https://saucelabs.com/browser-matrix/jnordberg-dsteem.svg)](https://saucelabs.com/open_sauce/user/jnordberg-dsteem)
-
-
-Installation
-------------
-
-### Via npm
-
-For node.js or the browser with [browserify](https://github.com/substack/node-browserify) or [webpack](https://github.com/webpack/webpack).
-
-```
-npm install dsteem
+```sh
+npm install @blazeapps/dsteem
 ```
 
-### From cdn or self-hosted script
+Requires **Node.js 22 LTS or newer**. (v0.11.x supported older Node; v0.12 dropped the native `secp256k1` build and the dead browser polyfills along with it.)
 
-Grab `dist/dsteem.js` from a [release](https://github.com/jnordberg/dsteem/releases) and include in your html:
+**Migrating from the legacy `dsteem`:** rename every `'dsteem'` import to `'@blazeapps/dsteem'`. The public API is identical — no other changes needed. See [What changed in v0.12](#what-changed-in-v012) for the under-the-hood swaps.
 
-```html
-<script src="dsteem.js"></script>
-```
+## Quick start (Node)
 
-Or from the [unpkg](https://unpkg.com) cdn:
-
-```html
-<script src="https://unpkg.com/dsteem@^0.8.0/dist/dsteem.js"></script>
-```
-
-Make sure to set the version you want when including from the cdn, you can also use `dsteem@latest` but that is not always desirable. See [unpkg.com](https://unpkg.com) for more information.
-
-
-Usage
------
-
-### In the browser
-
-```html
-<script src="https://unpkg.com/dsteem@latest/dist/dsteem.js"></script>
-<script>
-    var client = new dsteem.Client('https://api.steemit.com')
-    client.database.getDiscussions('trending', {tag: 'writing', limit: 1}).then(function(discussions){
-        document.body.innerHTML += '<h1>' + discussions[0].title + '</h1>'
-        document.body.innerHTML += '<h2>by ' + discussions[0].author + '</h2>'
-        document.body.innerHTML += '<pre style="white-space: pre-wrap">' + discussions[0].body + '</pre>'
-    })
-</script>
-```
-
-See the [demo source](https://github.com/jnordberg/dsteem/tree/master/examples/comment-feed) for an example on how to setup a livereloading TypeScript pipeline with [wintersmith](https://github.com/jnordberg/wintersmith) and [browserify](https://github.com/substack/node-browserify).
-
-### In node.js
-
-With TypeScript:
-
-```typescript
-import {Client} from 'dsteem'
+```ts
+import {Client} from '@blazeapps/dsteem'
 
 const client = new Client('https://api.steemit.com')
+// or, if the primary is down:
+// const client = new Client('https://api.moecki.online')
 
 for await (const block of client.blockchain.getBlocks()) {
-    console.log(`New block, id: ${ block.block_id }`)
+    console.log(`New block, id: ${block.block_id}`)
 }
 ```
 
-With JavaScript:
+```js
+const {Client, PrivateKey} = require('@blazeapps/dsteem')
 
-```javascript
-var dsteem = require('dsteem')
-
-var client = new dsteem.Client('https://api.steemit.com')
-var key = dsteem.PrivateKey.fromLogin('username', 'password', 'posting')
+const client = new Client('https://api.steemit.com')
+const key = PrivateKey.fromLogin('username', 'password', 'posting')
 
 client.broadcast.vote({
     voter: 'username',
     author: 'almost-digital',
     permlink: 'dsteem-is-the-best',
     weight: 10000
-}, key).then(function(result){
-   console.log('Included in block: ' + result.block_num)
-}, function(error) {
-   console.error(error)
-})
+}, key).then(({block_num}) => console.log('Included in block:', block_num))
 ```
 
-With ES2016 (node.js 7+):
+## Quick start (browser)
 
-```javascript
-const {Client} = require('dsteem')
-
-const client = new Client('https://api.steemit.com')
-
-async function main() {
-    const props = await client.database.getChainProperties()
-    console.log(`Maximum blocksize consensus: ${ props.maximum_block_size } bytes`)
-    client.disconnect()
-}
-
-main().catch(console.error)
+```html
+<script src="https://unpkg.com/@blazeapps/dsteem@^0.12/dist/dsteem.browser.global.js"></script>
+<script>
+    const client = new dsteem.Client('https://api.steemit.com')
+    client.database.getDiscussions('trending', {tag: 'writing', limit: 1}).then(([post]) => {
+        document.body.innerHTML = `<h1>${post.title}</h1><h2>by ${post.author}</h2>`
+    })
+</script>
 ```
 
-With node.js streams:
+The browser bundle inlines a Node `Buffer` polyfill (~20 KB) — consumers don't need to set anything up. The IIFE bundle still exposes the global as `window.dsteem` for drop-in compatibility with v0.11.x browser snippets.
 
-```javascript
-var dsteem = require('dsteem')
-var es = require('event-stream') // npm install event-stream
-var util = require('util')
+When using a bundler (webpack/vite/rollup), `import {Client} from '@blazeapps/dsteem'` resolves to the ESM build automatically.
 
-var client = new dsteem.Client('https://api.steemit.com')
+## Browser Testing Harness
 
-var stream = client.blockchain.getBlockStream()
+A static HTML harness for **manual, form-driven testing of every dsteem operation** lives in [`Browser Testing/`](./Browser%20Testing/) and is deployed alongside the docs:
 
-stream.pipe(es.map(function(block, callback) {
-    callback(null, util.inspect(block, {colors: true, depth: null}) + '\n')
-})).pipe(process.stdout)
+- **Live**: <https://blazeapps007.github.io/dsteem/harness/>
+- **Coverage**: forms for all 47 Steem operations (account, content, wallet, power, market, escrow, witness, custom, governance, recovery/legacy)
+- **Lookup panel**: `getAccounts`, `getDynamicGlobalProperties`, RC/VP mana, raw `client.call` — no key required
+- **Safety**: defaults to `Build & Sign only`; broadcasting requires a per-form opt-in; keys are never persisted
+- **Install model**: pulls `dsteem` from the local repo via `"dsteem": "file:.."` — never from the npm registry — so the harness always tests what's in this tree
+
+Run it locally:
+
+```sh
+npm install && npm run build         # at repo root — produces dist/
+cd "Browser Testing" && npm install  # postinstall copies the IIFE bundle into lib/
+npm run serve                        # → http://localhost:8080
 ```
 
+The Pages workflow ([.github/workflows/pages.yml](.github/workflows/pages.yml)) builds the harness in CI and serves it under `/harness/`. See [`Browser Testing/README.md`](./Browser%20Testing/README.md) for full safety rules and per-op notes.
 
-Bundling
---------
+## API
 
-The easiest way to bundle dsteem (with browserify, webpack etc.) is to just `npm install dsteem` and `require('dsteem')` which will give you well-tested (see browser compatibility matrix above) pre-bundled code guaranteed to JustWork™. However, that is not always desirable since it will not allow your bundler to de-duplicate any shared dependencies dsteem and your app might have.
+Full API reference: <https://blazeapps007.github.io/dsteem/>
 
-To allow for deduplication you can `require('dsteem/lib/index-browser')`, or if you plan to provide your own polyfills: `require('dsteem/lib/index')`. See `src/index-browser.ts` for a list of polyfills expected.
+Public surface (everything `v0.11.x` exported is still exported the same way):
+
+- **Core**: `Client`, `PrivateKey`, `PublicKey`, `Signature`, `cryptoUtils`
+- **Domain types**: `Asset`, `Price`, `Transaction`, `SignedTransaction`, `Operation`, `Types`, all of the `*Operation` interfaces
+- **API helpers**: `Blockchain`, `DatabaseAPI`, `BroadcastAPI`, `RCAPI`
+- **Utility helpers**: the `utils` namespace (including `buildWitnessUpdateOp`)
+
+New in `v0.12.0` — additive only (no breaking changes): `BroadcastAPI`, `CreateAccountOptions`, and the resource-credit interfaces (`RCAccount`, `RCParams`, `RCPool`, `Manabar`, `Resource`, `Pool`, `DynamicParam`, `PriceCurveParam`) are now directly importable from the package root, so TypeScript consumers can write `import type {Manabar} from '@blazeapps/dsteem'` instead of digging the type out of a class signature.
+
+## Network
+
+Default RPC for code samples is `https://api.steemit.com`. A community-maintained fallback is `https://api.moecki.online`. Set the URL when constructing `Client`.
+
+## What changed in v0.12
+
+- **Crypto:** native `secp256k1` (high-severity CVE in 3.x) + `Node:crypto.createHash` → pure-JS [`@noble/curves`](https://github.com/paulmillr/noble-curves) + [`@noble/hashes`](https://github.com/paulmillr/noble-hashes). Public API unchanged; signatures are still canonical (`isCanonicalSignature`) and accepted by Steem nodes. Old on-chain signatures still verify with the new backend.
+- **Bundle:** browserify + tsify + babelify + uglifyjs + dts-generator → [`tsup`](https://tsup.egoist.dev/) (esbuild). Browser bundle dropped from 782 KB → 351 KB.
+- **Polyfills:** `core-js@2`, `regenerator-runtime`, `whatwg-fetch`, `node-fetch` — all removed. Modern browsers and Node 22+ provide everything natively.
+- **Module format:** dual ESM + CJS via the `exports` map; no more `lib/` directory or build-time `version.js` rewrite.
+- **TypeScript:** 3.1 → 5.x, with strict mode (`strictNullChecks`, `noImplicitAny`, `noImplicitThis`).
+- **Lint:** `tslint` (deprecated) → ESLint 9 flat config + `typescript-eslint` 8.
+- **Tests:** mocha 5 → 11, `nyc` → `c8` (70 % coverage gate). Karma + Sauce Labs browser tests → Playwright (Chromium/Firefox/WebKit headless).
+- **CI:** CircleCI + Travis → GitHub Actions, matrix on Node 22 + Node 24.
+
+`dist/` contents:
+
+| File | Purpose |
+|---|---|
+| `dist/index.mjs` | ESM entry (Node) |
+| `dist/index.cjs` | CommonJS entry (Node) |
+| `dist/index.d.ts` | TypeScript declarations |
+| `dist/dsteem.browser.global.js` | Browser IIFE (global `dsteem`), inlines all deps + Buffer polyfill |
+
+## License
+
+BSD-3-Clause — see [LICENSE](./LICENSE).
 
 ---
 

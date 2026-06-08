@@ -37,6 +37,7 @@ import * as utils from './utils'
 export {utils}
 
 export * from './helpers/blockchain'
+export * from './helpers/broadcast'
 export * from './helpers/database'
 export * from './helpers/rc'
 
@@ -46,6 +47,7 @@ export * from './steem/block'
 export * from './steem/comment'
 export * from './steem/misc'
 export * from './steem/operation'
+export * from './steem/rc'
 export * from './steem/serializer'
 export * from './steem/transaction'
 

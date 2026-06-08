@@ -62,7 +62,7 @@ export class HexBuffer {
 
     constructor(public buffer: Buffer) {}
 
-    public toString(encoding = 'hex') {
+    public toString(encoding: BufferEncoding = 'hex') {
         return this.buffer.toString(encoding)
     }
 
@@ -82,7 +82,7 @@ export interface ChainProperties {
      * fee requires all accounts to have some kind of commitment to the network that includes the
      * ability to vote and make transactions.
      *
-     * @note This has to be multiplied by `STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER`
+     * @remarks This has to be multiplied by `STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER`
      *       (defined as 30 on the main chain) to get the minimum fee needed to create an account.
      *
      */
@@ -188,7 +188,7 @@ export interface DynamicGlobalProperties {
      * Each witness posts what they think the maximum size should be as part of their witness
      * properties, the median size is chosen to be the maximum block size for the round.
      *
-     * @note the minimum value for maximum_block_size is defined by the protocol to prevent the
+     * @remarks the minimum value for maximum_block_size is defined by the protocol to prevent the
      * network from getting stuck by witnesses attempting to set this too low.
      */
     maximum_block_size: number

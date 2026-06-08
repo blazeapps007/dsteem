@@ -1,10 +1,12 @@
 import 'mocha'
-import * as assert from 'assert'
+import assert from 'assert'
 import {VError} from 'verror'
 
-import {Client, utils} from './../src'
+import {Client} from './../src'
+import {skipIfNoTestnet} from './common'
 
 describe('client', function() {
+    before(skipIfNoTestnet)
     this.slow(200)
     this.timeout(30 * 1000)
 
@@ -23,8 +25,8 @@ describe('client', function() {
             assert(false, 'should not be reached')
         } catch (error) {
             assert.equal(error.name, 'RPCError')
-            assert(error.message == `itr != _by_name.end(): no method with name 'i_like_turtles'` // pre-appbase
-                || error.message == `method_itr != api_itr->second.end(): Could not find method i_like_turtles`) // appbase
+            assert(error.message === `itr != _by_name.end(): no method with name 'i_like_turtles'` // pre-appbase
+                || error.message === `method_itr != api_itr->second.end(): Could not find method i_like_turtles`) // appbase
 
             const info = VError.info(error)
             assert.equal(info.code, 10)
@@ -56,11 +58,10 @@ describe('client', function() {
             seenBackoff = true
             return backoff(tries)
         }
-        const tx = {operations: [['witness_update', {}]]}
         try {
             await client.database.getChainProperties()
             assert(false, 'should not be reached')
-        } catch (error) {
+        } catch (_error) {
             assert(seenBackoff, 'should have seen backoff')
         }
     })

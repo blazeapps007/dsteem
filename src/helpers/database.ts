@@ -35,13 +35,13 @@
 
 import {Client} from './../client'
 import {ExtendedAccount} from './../steem/account'
-import {Asset, Price} from './../steem/asset'
+import {Price} from './../steem/asset'
 import {BlockHeader, SignedBlock} from './../steem/block'
 import {Discussion} from './../steem/comment'
 import {DynamicGlobalProperties} from './../steem/misc'
 import {ChainProperties, VestingDelegation} from './../steem/misc'
 import {AppliedOperation} from './../steem/operation'
-import {SignedTransaction, Transaction, TransactionConfirmation} from './../steem/transaction'
+import {SignedTransaction, TransactionConfirmation} from './../steem/transaction'
 
 /**
  * Possible categories for `get_discussions_by_*`.
@@ -127,8 +127,8 @@ export class DatabaseAPI {
      * @param limit Number of results, max 1000.
      */
     public async getVestingDelegations(account: string,
-                                       from: string = '',
-                                       limit: number = 1000): Promise<VestingDelegation[]> {
+        from: string = '',
+        limit: number = 1000): Promise<VestingDelegation[]> {
         return this.call('get_vesting_delegations', [account, from, limit])
     }
 

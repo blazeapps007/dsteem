@@ -33,7 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import 'core-js/modules/es7.symbol.async-iterator'
-global['fetch'] = require('node-fetch') // tslint:disable-line:no-string-literal
+// Node 18+ has a global `fetch`; src/utils.ts captures it at module load.
+// No polyfill required for Node 22+ (the supported floor).
 
 export * from './index'

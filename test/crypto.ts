@@ -1,19 +1,17 @@
 import 'mocha'
-import * as assert from 'assert'
-import * as ByteBuffer from 'bytebuffer'
+import assert from 'assert'
+import ByteBuffer from 'bytebuffer'
 import {inspect} from 'util'
 import {randomBytes, createHash} from 'crypto'
 
 import {
-    DEFAULT_ADDRESS_PREFIX,
     DEFAULT_CHAIN_ID,
-    Operation,
     PrivateKey,
     PublicKey,
     Signature,
     cryptoUtils,
     Transaction,
-    Types,
+    Types
 } from './../src'
 
 describe('crypto', function() {
@@ -21,11 +19,11 @@ describe('crypto', function() {
     const testnetPrefix = 'STX'
     const testnetPair = {
         private: '5JQy7moK9SvNNDxn8rKNfQYFME5VDYC2j9Mv2tb7uXV5jz3fQR8',
-        public: 'STX8FiV6v7yqYWTZz8WuFDckWr62L9X34hCy6koe8vd2cDJHimtgM',
+        public: 'STX8FiV6v7yqYWTZz8WuFDckWr62L9X34hCy6koe8vd2cDJHimtgM'
     }
     const mainPair = {
         private: '5K2yDAd9KAZ3ZitBsAPyRka9PLFemUrbcL6UziZiPaw2c6jCeLH',
-        public: 'STM8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K',
+        public: 'STM8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K'
     }
     const mainPairPub = Buffer.from('03d0519ddad62bd2a833bee5dc04011c08f77f66338c38d99c685dee1f454cd1b8', 'hex')
 

@@ -1,13 +1,13 @@
 import 'mocha'
-import * as assert from 'assert'
+import assert from 'assert'
 import * as lorem from 'lorem-ipsum'
-import {VError} from 'verror'
 
-import {Client, PrivateKey, utils} from './../src'
+import {Client, PrivateKey} from './../src'
 
-import {getTestnetAccounts, randomString, agent} from './common'
+import {getTestnetAccounts, randomString, agent, skipIfNoTestnet} from './common'
 
 describe('broadcast', function() {
+    before(skipIfNoTestnet)
     this.slow(10 * 1000)
     this.timeout(60 * 1000)
 
@@ -35,7 +35,7 @@ describe('broadcast', function() {
             permlink: postPermlink,
             title: `Picture of the day #${ ~~(Math.random() * 1e8) }`,
             body,
-            json_metadata: JSON.stringify({foo: 'bar', tags: ['test']}),
+            json_metadata: JSON.stringify({foo: 'bar', tags: ['test']})
         }, key)
         const block = await client.database.getBlock(result.block_num)
         assert(block.transaction_ids.indexOf(result.id) !== -1)
@@ -50,13 +50,13 @@ describe('broadcast', function() {
             permlink: `${ postPermlink }-botcomment-1`,
             title: 'Comments has titles?',
             body: `Amazing post! Revoted upsteemed and trailing! @${ acc2.username }`,
-            json_metadata: '',
+            json_metadata: ''
         }, key)
         const votePromise = client.broadcast.vote({
             voter: acc2.username,
             author: acc1.username,
             permlink: postPermlink,
-            weight: 10000,
+            weight: 10000
         }, key)
         const result = await Promise.all([commentPromise, votePromise])
         assert(result.every((r) => r.expired === false))

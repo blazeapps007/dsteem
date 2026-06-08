@@ -1,0 +1,14 @@
+{
+    "name": "dsteem-browser-testing",
+    "private": true,
+    "version": "0.0.0",
+    "description": "Manual browser-based testing harness for dsteem operations",
+    "scripts": {
+        "postinstall": "node setup.js",
+        "setup": "node setup.js",
+        "serve": "npx http-server . -p 8080 --no-dotfiles -c-1"
+    },
+    "dependencies": {
+        "dsteem": "file:.."
+    }
+}

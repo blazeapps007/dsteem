@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>dsteem browser smoke</title>
+  <script src="../dist/dsteem.browser.global.js"></script>
+</head>
+<body>
+  <h1>dsteem browser smoke</h1>
+  <pre id="out"></pre>
+  <script>
+    (function () {
+        const out = document.getElementById('out')
+        const log = (line) => { out.textContent += line + '\n' }
+        const fail = (msg) => {
+            window.__dsteemSmokeError = msg
+            log('FAIL: ' + msg)
+        }
+        try {
+            if (typeof window.dsteem === 'undefined') {
+                return fail('dsteem global missing — bundle did not load')
+            }
+            const {Client, PrivateKey, PublicKey, Signature, cryptoUtils, VERSION} = window.dsteem
+            log('VERSION: ' + VERSION)
+
+            // 1. Hash determinism
+            const h = cryptoUtils.sha256('abc').toString('hex')
+            if (h !== 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad') {
+                return fail('sha256("abc") mismatch: ' + h)
+            }
+
+            // 2. Sign + verify + recover round-trip
+            const key = PrivateKey.fromSeed('browser-smoke-seed-1')
+            const pub = key.createPublic()
+            const msg = cryptoUtils.sha256('hello browser')
+            const sig = key.sign(msg)
+            if (!pub.verify(msg, sig)) { return fail('verify returned false') }
+            const recovered = sig.recover(msg)
+            if (recovered.toString() !== pub.toString()) {
+                return fail('recover mismatch: ' + recovered.toString() + ' != ' + pub.toString())
+            }
+
+            // 3. WIF round-trip
+            const wif = key.toString()
+            const fromWif = PrivateKey.fromString(wif)
+            if (fromWif.createPublic().toString() !== pub.toString()) {
+                return fail('WIF round-trip mismatch')
+            }
+
+            // 4. Client constructable (no actual network call here)
+            const client = new Client('https://api.steemit.com')
+            if (typeof client.database.getAccounts !== 'function') {
+                return fail('Client.database.getAccounts not a function')
+            }
+
+            log('ALL OK')
+            window.__dsteemSmokeOk = true
+        } catch (e) {
+            fail((e && e.message) || String(e))
+        }
+    })()
+  </script>
+</body>
+</html>

@@ -1,16 +1,30 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "lib": ["es2015", "esnext.asynciterable"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noImplicitThis": true,
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "lib": ["ES2022", "DOM"],
     "outDir": "lib",
+    "declaration": true,
+    "declarationMap": false,
+    "sourceMap": true,
+    "inlineSources": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noImplicitThis": true,
     "strictNullChecks": true,
-    "target": "es6",
-    "types" : ["node", "verror"]
+    "noImplicitAny": true,
+    "types": ["node", "verror"]
   },
   "include": [
     "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "dist",
+    "test"
   ]
 }

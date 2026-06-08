@@ -1,26 +1,20 @@
 import 'mocha'
-import * as assert from 'assert'
+import assert from 'assert'
 
-import { Client, Asset, Transaction, PrivateKey } from './../src'
-import { getTestnetAccounts, randomString, agent, TEST_NODE } from './common'
+import {Client} from './../src'
+import {agent, skipIfNoTestnet} from './common'
 
 describe('rc_api', function () {
+    before(skipIfNoTestnet)
     this.slow(500)
     this.timeout(20 * 1000)
 
-    const client = Client.testnet({ agent })
-    let serverConfig: { [key: string]: boolean | string | number }
-    const liveClient = new Client(TEST_NODE, { agent })
+    const client = Client.testnet({agent})
 
-    let acc: { username: string, posting: string, active: string }
-    /*before(async function () {
-        [acc] = await getTestnetAccounts()
-    })*/
-
-    // _calculateManabar max_mana: number, { current_mana, last_update_time }
+    // _calculateManabar max_mana: number, {current_mana, last_update_time}
 
     it('calculateVPMana', function() {
-        let account: any = {
+        const account: any = {
             name: 'therealwolf',
             voting_manabar: {
                 current_mana: 130168665536029,
@@ -39,7 +33,7 @@ describe('rc_api', function () {
     })
 
     it('calculateRCMana', function() {
-        let rc_account = {
+        const rc_account = {
             account: 'therealwolf',
             rc_manabar: {
                 current_mana: '100000',

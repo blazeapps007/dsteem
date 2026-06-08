@@ -5,7 +5,29 @@ import {randomBytes} from 'crypto'
 
 export const NUM_TEST_ACCOUNTS = 2
 export const IS_BROWSER = global['isBrowser'] === true
+
+// Mainnet RPC for read-only tests. api.moecki.online is the documented
+// fallback the user wants exercised — set TEST_NODE / TEST_NODE_FALLBACK
+// to override either.
 export const TEST_NODE = process.env['TEST_NODE'] || 'https://api.steemit.com'
+export const TEST_NODE_FALLBACK = process.env['TEST_NODE_FALLBACK'] || 'https://api.moecki.online'
+
+// Network-test gates: tests that talk to a live Steem node skip unless these
+// env vars are set. CI runs the deterministic, offline tests by default.
+// TEST_MAINNET=1 → run read-only mainnet tests (database, blockchain, client).
+// TEST_TESTNET=1 → run write tests (broadcast, RC) that need testnet creds.
+//                  The legacy testnet.steem.vc endpoint is likely dead in 2026,
+//                  so these are off by default.
+export const TEST_MAINNET = process.env['TEST_MAINNET'] === '1'
+export const TEST_TESTNET = process.env['TEST_TESTNET'] === '1'
+
+export function skipIfNoMainnet(this: Mocha.Context) {
+    if (!TEST_MAINNET) { this.skip() }
+}
+
+export function skipIfNoTestnet(this: Mocha.Context) {
+    if (!TEST_TESTNET) { this.skip() }
+}
 
 export const agent = IS_BROWSER ? undefined : new https.Agent({keepAlive: true})
 
@@ -41,7 +63,7 @@ export async function createAccount(): Promise<{username: string, password: stri
     const response = await fetch('https://testnet.steem.vc/create', {
         method: 'POST',
         body: `username=${ username }&password=${ password }`,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     })
     const text = await response.text()
     if (response.status !== 200) {
@@ -63,7 +85,7 @@ export async function getTestnetAccounts(): Promise<{username: string, password:
     } else if (global['__testnet_accounts']) {
         return global['__testnet_accounts']
     }
-    let rv: {username: string, password: string}[] = []
+    const rv: {username: string, password: string}[] = []
     while (rv.length < NUM_TEST_ACCOUNTS) {
         rv.push(await createAccount())
     }

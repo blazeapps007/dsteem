@@ -1,0 +1,88 @@
+name: Pages
+
+on:
+  # Build + deploy on every push to the development branch and to master.
+  push:
+    branches: [master, BlazeDevelopment]
+  # Build (but don't deploy) on PRs so docs changes are validated before merge.
+  pull_request:
+    branches: [master]
+  # Allow manual deploy from the Actions tab.
+  workflow_dispatch:
+
+# Cancel any in-progress Pages deploy when a newer commit lands, so we don't
+# race two `actions/deploy-pages` runs against the same Pages environment.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+# Minimum perms needed by `actions/deploy-pages`.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    name: build site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install root deps
+        run: npm install --no-audit --no-fund --legacy-peer-deps
+
+      # The harness loads dist/dsteem.browser.global.js via file:.. — make sure it exists.
+      - name: Build dsteem (produces dist/ used by the harness via file:..)
+        run: npm run build
+
+      - name: Generate API docs (typedoc 0.28)
+        run: npm run build:docs
+
+      - name: Install Browser Testing harness deps
+        # `npm install` here pulls dsteem from file:.. and the postinstall script
+        # copies the IIFE bundle from node_modules/dsteem/dist/ into lib/ so the
+        # deployed site is self-contained.
+        run: npm install --no-audit --no-fund --legacy-peer-deps
+        working-directory: 'Browser Testing'
+
+      - name: Assemble combined Pages site
+        # Layout:
+        #   /                — typedoc API reference (existing behaviour)
+        #   /harness/        — Browser Testing manual op harness
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cp -r docs/. _site/
+          mkdir -p _site/harness
+          cp "Browser Testing/index.html"  _site/harness/
+          cp "Browser Testing/README.md"   _site/harness/
+          cp -r "Browser Testing/css"      _site/harness/
+          cp -r "Browser Testing/js"       _site/harness/
+          cp -r "Browser Testing/lib"      _site/harness/
+          echo "--- _site tree ---"
+          find _site -maxdepth 3 -type d
+          echo "--- harness bundle ---"
+          ls -lh _site/harness/lib/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: deploy to GitHub Pages
+    # Only deploy on push to the deployable branches, not on PRs.
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
