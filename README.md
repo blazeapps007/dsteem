@@ -67,18 +67,16 @@ When using a bundler (webpack/vite/rollup), `import {Client} from '@blazeapps/ds
 
 ## Quick start (React Native / Expo)
 
-React Native's JS runtime (Hermes/JSC) doesn't ship Node's `Buffer` or `crypto.getRandomValues`, both of which dsteem needs internally (Buffer for asset/key serialization; secure-random for ECDSA signing). Install two polyfills and import them **before** any `@blazeapps/dsteem` import:
+React Native's JS runtime (Hermes/JSC) doesn't ship Web Crypto's `getRandomValues`, which `@noble/curves` needs for ECDSA entropy. As of **v0.12.2**, the package's `react-native` / `browser` exports resolve to a fully-polyfilled bundle — Node built-ins (`Buffer`, `stream`, `util`, `assert`) are inlined inside the package itself, so consumers no longer have to ship a Buffer polyfill or shim `global.Buffer`. Only one polyfill is still required:
 
 ```sh
-npm install @blazeapps/dsteem buffer react-native-get-random-values
+npm install @blazeapps/dsteem react-native-get-random-values
 ```
 
 At the very top of your app entry (`index.js` or `App.tsx`), before any other import:
 
 ```js
 import 'react-native-get-random-values'
-import {Buffer} from 'buffer'
-global.Buffer = Buffer
 ```
 
 Then use the library normally:
@@ -91,7 +89,17 @@ const key = PrivateKey.fromString(WIF_FROM_SECURE_STORE)
 await client.broadcast.vote({voter: 'me', author: 'a', permlink: 'b', weight: 10000}, key)
 ```
 
-The package's [`exports`](package.json) map includes a `"react-native"` condition (added in v0.12.1) that points Metro at the CJS build, so no `metro.config.js` tweaks are needed. Verified on Expo SDK 50+.
+After upgrading, clear Metro's cache once so it picks up the new `react-native` entry:
+
+```sh
+npx expo start --clear
+```
+
+No `metro.config.js` tweaks are needed. Verified on Expo SDK 50–55 / RN 0.83. (If you're upgrading from v0.12.1, you can delete the `global.Buffer = Buffer` shim line — it's no longer necessary.)
+
+### Why this works in v0.12.2 but not in v0.12.0/0.12.1
+
+The Node CJS/ESM builds (`dist/index.cjs`, `dist/index.mjs`) externalize Node built-ins via esbuild's dynamic `__require("buffer")` shim. Metro can't statically analyze indirect requires, so it failed to bundle `buffer` and crashed at runtime with `Requiring unknown module "buffer"`. v0.12.2 ships a parallel polyfilled module build (`dist/index.browser.{mjs,cjs}`) emitted as real modules with all Node built-ins inlined, and the `exports` map now routes `react-native` and `browser` conditions to that build. Verified: `grep -oE '__require[0-9]?\("(buffer|stream|util|assert|crypto)"\)' dist/index.browser.*` returns zero matches.
 
 ## Browser Testing Harness
 

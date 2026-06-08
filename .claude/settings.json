@@ -65,7 +65,9 @@
       "Bash(node a:/tmp/harness-smoke.mjs)",
       "Bash(curl -fsS -o NUL http://localhost:8182/)",
       "Bash(curl -fsS -o NUL -w \"/                          HTTP %{http_code}\\\\n\" http://localhost:8182/)",
-      "Bash(curl -fsS -o NUL -w \"/lib/dsteem.browser.global HTTP %{http_code}  size=%{size_download}\\\\n\" http://localhost:8182/lib/dsteem.browser.global.js)"
+      "Bash(curl -fsS -o NUL -w \"/lib/dsteem.browser.global HTTP %{http_code}  size=%{size_download}\\\\n\" http://localhost:8182/lib/dsteem.browser.global.js)",
+      "Bash(node -e \"globalThis.navigator={language:'en-US',userAgent:'node'};const m=require\\('./dist/index.browser.cjs'\\);console.log\\('cjs: Client='+\\(typeof m.Client==='function'\\)+' VERSION='+m.VERSION+' #exports='+Object.keys\\(m\\).length\\)\")",
+      "Bash(node --input-type=module -e \"globalThis.navigator={language:'en-US',userAgent:'node'};const m=await import\\('./dist/index.browser.mjs'\\);console.log\\('mjs: Client='+\\(typeof m.Client==='function'\\)+' VERSION='+m.VERSION+' #exports='+Object.keys\\(m\\).length\\)\")"
     ],
     "additionalDirectories": [
       "\\tmp"

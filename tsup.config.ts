@@ -66,5 +66,34 @@ export default defineConfig([
         esbuildPlugins: [polyfillNode({polyfills: {crypto: true}})],
         // Bundle every dep into the browser build (consumer has nothing to install).
         noExternal: [/.*/]
+    },
+    // Polyfilled module build for bundlers targeting browser / React Native.
+    // Same source + polyfill plugin as the IIFE entry, but emitted as real ESM + CJS
+    // modules so Metro / webpack / Vite / rollup can resolve named exports. The Node
+    // builds above externalize buffer/stream/util/assert via __require() which Metro
+    // can't statically analyze; this build inlines them all (verified via grep against
+    // the dist output: zero __require("buffer") matches).
+    {
+        entry: {'index.browser': 'src/index-browser.ts'},
+        outDir: 'dist',
+        format: ['esm', 'cjs'],
+        target: 'es2020',
+        platform: 'browser',
+        dts: false, // .d.ts is already emitted by the Node build (same source surface)
+        sourcemap: true,
+        minify: false, // bundler consumers minify if they want
+        treeshake: true,
+        splitting: false,
+        define: {
+            __PACKAGE_VERSION__: JSON.stringify(pkg.version),
+            global: 'globalThis'
+        },
+        banner: {js: banner},
+        esbuildPlugins: [polyfillNode({polyfills: {crypto: true}})],
+        // Bundle every dep so Metro / webpack don't see indirect __require() calls.
+        noExternal: [/.*/],
+        outExtension({format}) {
+            return {js: format === 'cjs' ? '.cjs' : '.mjs'}
+        }
     }
 ])
