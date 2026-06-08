@@ -81,12 +81,12 @@ describe('blockchain', function() {
     })
 
     it('should handle errors on stream', async function() {
-        await new Promise((resolve, reject) => {
+        await new Promise((resolve, _reject) => {
             const stream = client.blockchain.getBlockStream(Number.MAX_VALUE)
             stream.on('data', () => {
                 assert(false, 'unexpected stream data')
             })
-            stream.on('error', (error) => {
+            stream.on('error', (_error) => {
                 resolve()
             })
         })

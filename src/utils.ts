@@ -35,7 +35,6 @@
 
 import {EventEmitter} from 'events'
 import {PassThrough} from 'stream'
-import {VError} from 'verror'
 
 const fetch = global['fetch']  
 
@@ -43,7 +42,7 @@ const fetch = global['fetch']
  * Return a promise that will resove when a specific event is emitted.
  */
 export function waitForEvent<T>(emitter: EventEmitter, eventName: string|symbol): Promise<T> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
         emitter.once(eventName, resolve)
     })
 }

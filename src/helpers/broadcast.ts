@@ -39,10 +39,7 @@ import {Client} from './../client'
 import {cryptoUtils, PrivateKey, PublicKey} from './../crypto'
 import {Authority, AuthorityType} from './../steem/account'
 import {Asset} from './../steem/asset'
-import {getVestingSharePrice, HexBuffer} from './../steem/misc'
 import {
-    AccountCreateOperation,
-    AccountCreateWithDelegationOperation,
     AccountUpdateOperation,
     ClaimAccountOperation,
     CommentOperation,

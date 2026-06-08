@@ -6,7 +6,7 @@ This is a developer / community tool — not part of CI — for validating that 
 
 **Live deployment (auto-built from `BlazeDevelopment`):** <https://blazeapps007.github.io/dsteem/harness/>
 
-The deployed copy is byte-identical to what's in this folder, with `dsteem` installed **from the local repo** (not from the npm registry — `dsteem@0.11.x` on npm is the unmodernized version). After `v0.12.0` is published under the planned `blazesteem` name on npm, this harness will switch to that.
+The deployed copy is byte-identical to what's in this folder, with `dsteem` installed **from the local repo** via `"dsteem": "file:.."` so it always tests what's in this source tree (not whatever is on the npm registry). The modernized package is published as **[`@blazeapps/dsteem`](https://www.npmjs.com/package/@blazeapps/dsteem)** — the original `dsteem@0.11.x` is left untouched. If you want to switch the harness to use the published artifact instead of the source tree, change `"dsteem": "file:.."` → `"dsteem": "npm:@blazeapps/dsteem@^0.12"` in [package.json](package.json); the rest of the harness keeps working since it imports the bundle through `node_modules/dsteem/...`.
 
 ---
 

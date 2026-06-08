@@ -29,7 +29,7 @@ describe('operations', function() {
             currentDelegation.amount >= 1000 ? 0 : 1000 + Math.random() * 1000,
             'VESTS'
         )
-        const result = await client.broadcast.delegateVestingShares({
+        await client.broadcast.delegateVestingShares({
             delegator: acc1.username,
             delegatee: acc2.username,
             vesting_shares: newDelegation
@@ -39,7 +39,7 @@ describe('operations', function() {
     })
 
     it('should send custom', async function() {
-        const props = await client.database.getDynamicGlobalProperties()
+        await client.database.getDynamicGlobalProperties()
         const op: ds.CustomOperation = ['custom', {
             required_auths: [acc1.username],
             id: ~~(Math.random() * 65535),
@@ -131,7 +131,7 @@ describe('operations', function() {
     it('should update account', async function() {
         const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'active')
         const foo = Math.random()
-        const rv = await client.broadcast.updateAccount({
+        await client.broadcast.updateAccount({
             account: acc1.username,
             memo_key: PrivateKey.fromLogin(acc1.username, acc1.password, 'memo').createPublic(client.addressPrefix),
             json_metadata: JSON.stringify({foo})

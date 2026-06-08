@@ -1,10 +1,10 @@
-# dsteem
+# @blazeapps/dsteem
 
 [![CI](https://github.com/blazeapps007/dsteem/actions/workflows/ci.yml/badge.svg?branch=BlazeDevelopment)](https://github.com/blazeapps007/dsteem/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/dsteem.svg)](https://www.npmjs.com/package/dsteem)
+[![npm](https://img.shields.io/npm/v/@blazeapps/dsteem.svg)](https://www.npmjs.com/package/@blazeapps/dsteem)
 [![Docs](https://img.shields.io/badge/docs-typedoc-blue?style=flat-square)](https://blazeapps007.github.io/dsteem/)
 
-Robust [Steem blockchain](https://steem.io) RPC client for Node.js and browsers.
+Modernized fork of [`dsteem`](https://github.com/jnordberg/dsteem) — a robust [Steem blockchain](https://steem.io) RPC client for Node.js and browsers. Published as `@blazeapps/dsteem` so the original `dsteem@0.11.x` on npm is untouched; the public API is unchanged so a drop-in import-rename is the only consumer change.
 
 - Pure-JS cryptography ([`@noble/curves`](https://github.com/paulmillr/noble-curves), [`@noble/hashes`](https://github.com/paulmillr/noble-hashes)) — no native bindings, no `node-gyp`, no prebuilds to verify
 - Dual ESM + CommonJS distribution with TypeScript declarations
@@ -14,15 +14,17 @@ Robust [Steem blockchain](https://steem.io) RPC client for Node.js and browsers.
 ## Install
 
 ```sh
-npm install dsteem
+npm install @blazeapps/dsteem
 ```
 
 Requires **Node.js 22 LTS or newer**. (v0.11.x supported older Node; v0.12 dropped the native `secp256k1` build and the dead browser polyfills along with it.)
 
+**Migrating from the legacy `dsteem`:** rename every `'dsteem'` import to `'@blazeapps/dsteem'`. The public API is identical — no other changes needed. See [What changed in v0.12](#what-changed-in-v012) for the under-the-hood swaps.
+
 ## Quick start (Node)
 
 ```ts
-import {Client} from 'dsteem'
+import {Client} from '@blazeapps/dsteem'
 
 const client = new Client('https://api.steemit.com')
 // or, if the primary is down:
@@ -34,7 +36,7 @@ for await (const block of client.blockchain.getBlocks()) {
 ```
 
 ```js
-const {Client, PrivateKey} = require('dsteem')
+const {Client, PrivateKey} = require('@blazeapps/dsteem')
 
 const client = new Client('https://api.steemit.com')
 const key = PrivateKey.fromLogin('username', 'password', 'posting')
@@ -50,7 +52,7 @@ client.broadcast.vote({
 ## Quick start (browser)
 
 ```html
-<script src="https://unpkg.com/dsteem@^0.12/dist/dsteem.browser.global.js"></script>
+<script src="https://unpkg.com/@blazeapps/dsteem@^0.12/dist/dsteem.browser.global.js"></script>
 <script>
     const client = new dsteem.Client('https://api.steemit.com')
     client.database.getDiscussions('trending', {tag: 'writing', limit: 1}).then(([post]) => {
@@ -59,9 +61,9 @@ client.broadcast.vote({
 </script>
 ```
 
-The browser bundle inlines a Node `Buffer` polyfill (~20 KB) — consumers don't need to set anything up.
+The browser bundle inlines a Node `Buffer` polyfill (~20 KB) — consumers don't need to set anything up. The IIFE bundle still exposes the global as `window.dsteem` for drop-in compatibility with v0.11.x browser snippets.
 
-When using a bundler (webpack/vite/rollup), `import {Client} from 'dsteem'` resolves to the ESM build automatically.
+When using a bundler (webpack/vite/rollup), `import {Client} from '@blazeapps/dsteem'` resolves to the ESM build automatically.
 
 ## Browser Testing Harness
 
@@ -94,7 +96,7 @@ Public surface (everything `v0.11.x` exported is still exported the same way):
 - **API helpers**: `Blockchain`, `DatabaseAPI`, `BroadcastAPI`, `RCAPI`
 - **Utility helpers**: the `utils` namespace (including `buildWitnessUpdateOp`)
 
-New in `v0.12.0` — additive only (no breaking changes): `BroadcastAPI`, `CreateAccountOptions`, and the resource-credit interfaces (`RCAccount`, `RCParams`, `RCPool`, `Manabar`, `Resource`, `Pool`, `DynamicParam`, `PriceCurveParam`) are now directly importable from the package root, so TypeScript consumers can write `import type {Manabar} from 'dsteem'` instead of digging the type out of a class signature.
+New in `v0.12.0` — additive only (no breaking changes): `BroadcastAPI`, `CreateAccountOptions`, and the resource-credit interfaces (`RCAccount`, `RCParams`, `RCPool`, `Manabar`, `Resource`, `Pool`, `DynamicParam`, `PriceCurveParam`) are now directly importable from the package root, so TypeScript consumers can write `import type {Manabar} from '@blazeapps/dsteem'` instead of digging the type out of a class signature.
 
 ## Network
 

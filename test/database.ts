@@ -2,7 +2,7 @@ import 'mocha'
 import assert from 'assert'
 
 import {Client, Asset, Transaction, PrivateKey} from './../src'
-import {getTestnetAccounts, randomString, agent, skipIfNoTestnet, TEST_NODE} from './common'
+import {getTestnetAccounts, agent, skipIfNoTestnet, TEST_NODE} from './common'
 
 describe('database api', function() {
     before(skipIfNoTestnet)
@@ -38,7 +38,7 @@ describe('database api', function() {
         const r = (key: string) => result['STEEM_'+key]
         serverConfig = result
         // also test some assumptions made throughout the code
-        const conf = await liveClient.database.getConfig()
+        await liveClient.database.getConfig()
         assert.equal(r('CREATE_ACCOUNT_WITH_STEEM_MODIFIER'), 30)
         assert.equal(r('CREATE_ACCOUNT_DELEGATION_RATIO'), 5)
         assert.equal(r('100_PERCENT'), 10000)

@@ -35,13 +35,13 @@
 
 import ByteBuffer from 'bytebuffer'
 import {PublicKey} from './../crypto'
-import {Asset, Price} from './asset'
+import {Asset} from './asset'
 import {HexBuffer} from './misc'
 import {Operation} from './operation'
 
 export type Serializer = (buffer: ByteBuffer, data: any) => void
 
-const VoidSerializer = (buffer: ByteBuffer) => {
+const VoidSerializer = (_buffer: ByteBuffer) => {
     throw new Error('Void can not be serialized')
 }
 

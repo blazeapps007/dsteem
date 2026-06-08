@@ -41,7 +41,7 @@ import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
 import {RCAPI} from './helpers/rc'
-import {copy, retryingFetch, waitForEvent} from './utils'
+import {copy, retryingFetch} from './utils'
 
 /**
  * Library version.
@@ -98,13 +98,6 @@ interface RPCResponse {
     id: number
     error?: RPCError
     result?: any
-}
-
-interface PendingRequest {
-    request: RPCRequest,
-    timer: NodeJS.Timer | undefined
-    resolve: (response: any) => void
-    reject: (error: Error) => void
 }
 
 /**

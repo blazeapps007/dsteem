@@ -1,8 +1,14 @@
 {
-  "name": "dsteem",
+  "name": "@blazeapps/dsteem",
   "version": "0.12.0",
-  "description": "Steem blockchain RPC client library",
+  "description": "Modernized Steem blockchain RPC client library for Node.js and browsers (fork of jnordberg/dsteem).",
   "author": "Johan Nordberg",
+  "contributors": [
+    {
+      "name": "blaze.apps",
+      "url": "https://github.com/blazeapps007"
+    }
+  ],
   "license": "BSD-3-Clause",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -25,7 +31,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jnordberg/dsteem"
+    "url": "git+https://github.com/blazeapps007/dsteem.git"
+  },
+  "homepage": "https://blazeapps007.github.io/dsteem/",
+  "bugs": {
+    "url": "https://github.com/blazeapps007/dsteem/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsup",
@@ -41,7 +54,9 @@
     "blockchain",
     "client",
     "rpc",
-    "steem"
+    "steem",
+    "dsteem",
+    "blazeapps"
   ],
   "dependencies": {
     "@noble/curves": "^1.9.7",

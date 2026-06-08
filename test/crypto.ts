@@ -5,9 +5,7 @@ import {inspect} from 'util'
 import {randomBytes, createHash} from 'crypto'
 
 import {
-    DEFAULT_ADDRESS_PREFIX,
     DEFAULT_CHAIN_ID,
-    Operation,
     PrivateKey,
     PublicKey,
     Signature,

@@ -34,7 +34,6 @@
  */
 
 import assert from 'assert'
-import ByteBuffer from 'bytebuffer'
 
 export interface SMTAsset {
     amount: string|number,

@@ -1,24 +1,17 @@
 import 'mocha'
 import assert from 'assert'
 
-import { Client, Asset, Transaction, PrivateKey } from './../src'
-import { getTestnetAccounts, randomString, agent, skipIfNoTestnet, TEST_NODE } from './common'
+import {Client} from './../src'
+import {agent, skipIfNoTestnet} from './common'
 
 describe('rc_api', function () {
     before(skipIfNoTestnet)
     this.slow(500)
     this.timeout(20 * 1000)
 
-    const client = Client.testnet({ agent })
-    let serverConfig: { [key: string]: boolean | string | number }
-    const liveClient = new Client(TEST_NODE, { agent })
+    const client = Client.testnet({agent})
 
-    let acc: { username: string, posting: string, active: string }
-    /*before(async function () {
-        [acc] = await getTestnetAccounts()
-    })*/
-
-    // _calculateManabar max_mana: number, { current_mana, last_update_time }
+    // _calculateManabar max_mana: number, {current_mana, last_update_time}
 
     it('calculateVPMana', function() {
         const account: any = {

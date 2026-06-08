@@ -1,5 +1,5 @@
 
-import {Client, BlockchainMode} from 'dsteem'
+import {Client, BlockchainMode} from '@blazeapps/dsteem'
 
 import * as removeMarkdown from 'remove-markdown'
 

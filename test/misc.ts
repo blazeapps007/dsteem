@@ -1,7 +1,6 @@
 import 'mocha'
 import assert from 'assert'
 import * as stream from 'stream'
-import {VError} from 'verror'
 
 import {utils} from './../src'
 
@@ -26,7 +25,7 @@ describe('misc', function() {
 
         it('should handle backpressure', async function() {
             this.slow(500)
-            await new Promise((resolve, reject) => {
+            await new Promise((resolve, _reject) => {
                 const s1 = new stream.PassThrough({highWaterMark: 10, objectMode: true})
                 const s2 = utils.iteratorStream(counter(100))
                 s2.pipe(s1)
@@ -51,7 +50,7 @@ describe('misc', function() {
                 s.on('data', (d) => {
                     last = d.i
                 })
-                s.on('error', (error) => {
+                s.on('error', (_error) => {
                     assert.equal(last, 2)
                     sawError = true
                 })

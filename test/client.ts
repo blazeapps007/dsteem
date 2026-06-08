@@ -2,7 +2,7 @@ import 'mocha'
 import assert from 'assert'
 import {VError} from 'verror'
 
-import {Client, utils} from './../src'
+import {Client} from './../src'
 import {skipIfNoTestnet} from './common'
 
 describe('client', function() {
@@ -58,11 +58,10 @@ describe('client', function() {
             seenBackoff = true
             return backoff(tries)
         }
-        const tx = {operations: [['witness_update', {}]]}
         try {
             await client.database.getChainProperties()
             assert(false, 'should not be reached')
-        } catch (error) {
+        } catch (_error) {
             assert(seenBackoff, 'should have seen backoff')
         }
     })

@@ -1,9 +1,8 @@
 import 'mocha'
 import assert from 'assert'
 import * as lorem from 'lorem-ipsum'
-import {VError} from 'verror'
 
-import {Client, PrivateKey, utils} from './../src'
+import {Client, PrivateKey} from './../src'
 
 import {getTestnetAccounts, randomString, agent, skipIfNoTestnet} from './common'
 
