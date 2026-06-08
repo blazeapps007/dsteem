@@ -1,7 +1,7 @@
 {
   "name": "@blazeapps/dsteem",
-  "version": "0.12.0",
-  "description": "Modernized Steem blockchain RPC client library for Node.js and browsers (fork of jnordberg/dsteem).",
+  "version": "0.12.1",
+  "description": "Modernized Steem blockchain RPC client library for Node.js, browsers, and React Native (fork of jnordberg/dsteem).",
   "author": "Johan Nordberg",
   "contributors": [
     {
@@ -13,11 +13,11 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "browser": "./dist/dsteem.browser.global.js",
+  "react-native": "./dist/index.cjs",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "browser": "./dist/dsteem.browser.global.js",
+      "react-native": "./dist/index.cjs",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },

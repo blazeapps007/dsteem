@@ -48,7 +48,24 @@
       "Bash(node --input-type=module -e \"import {BroadcastAPI, Client, VERSION, RCAPI} from './dist/index.mjs'; console.log\\('VERSION:', VERSION, 'BroadcastAPI:', typeof BroadcastAPI, 'RCAPI:', typeof RCAPI\\);\")",
       "Bash(node -e \"const m = require\\('./dist/index.cjs'\\); console.log\\('CJS exports added:', 'BroadcastAPI' in m, 'RCAPI' in m, 'Client' in m\\);\")",
       "Bash(cd a:/dsteem && cp .github/workflows/ci.yml /tmp/ci-evolved.yml && cat .github/workflows/ci.yml | head -5 && echo \"--- backed up ---\")",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "WebFetch(domain:blazeapps007.github.io)",
+      "Bash(grep -nA 12 \"export interface AuthorityType\" a:/dsteem/src/steem/account.ts)",
+      "Bash(grep -nA 12 \"export interface ChainProperties\" a:/dsteem/src/steem/misc.ts)",
+      "Bash(npx http-server *)",
+      "Bash(curl -fsS -o NUL -w \"HTTP %{http_code}\\\\n\" http://localhost:8181/)",
+      "Bash(curl -fsS -o NUL -w \"HTTP %{http_code}\\\\n\" http://localhost:8181/node_modules/dsteem/dist/dsteem.browser.global.js)",
+      "Bash(curl -fsS -o NUL -w \"HTTP %{http_code}\\\\n\" http://localhost:8181/js/app.js)",
+      "Bash(curl -fsS -o NUL -w \"HTTP %{http_code}\\\\n\" http://localhost:8181/css/styles.css)",
+      "Bash(curl -fsS -o NUL -w \"/                                  HTTP %{http_code}\\\\n\" http://localhost:8181/)",
+      "Bash(curl -fsS -o NUL -w \"/index.html                        HTTP %{http_code}\\\\n\" http://localhost:8181/index.html)",
+      "Bash(curl -fsS -o NUL -w \"/node_modules/dsteem/.../global.js HTTP %{http_code}\\\\n\" http://localhost:8181/node_modules/dsteem/dist/dsteem.browser.global.js)",
+      "Bash(curl -fsS -o NUL -w \"/js/app.js                         HTTP %{http_code}\\\\n\" http://localhost:8181/js/app.js)",
+      "Bash(curl -fsS -o NUL -w \"/js/form-builder.js                HTTP %{http_code}\\\\n\" http://localhost:8181/js/form-builder.js)",
+      "Bash(node a:/tmp/harness-smoke.mjs)",
+      "Bash(curl -fsS -o NUL http://localhost:8182/)",
+      "Bash(curl -fsS -o NUL -w \"/                          HTTP %{http_code}\\\\n\" http://localhost:8182/)",
+      "Bash(curl -fsS -o NUL -w \"/lib/dsteem.browser.global HTTP %{http_code}  size=%{size_download}\\\\n\" http://localhost:8182/lib/dsteem.browser.global.js)"
     ],
     "additionalDirectories": [
       "\\tmp"

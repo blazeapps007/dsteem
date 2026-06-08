@@ -65,6 +65,34 @@ The browser bundle inlines a Node `Buffer` polyfill (~20 KB) — consumers don't
 
 When using a bundler (webpack/vite/rollup), `import {Client} from '@blazeapps/dsteem'` resolves to the ESM build automatically.
 
+## Quick start (React Native / Expo)
+
+React Native's JS runtime (Hermes/JSC) doesn't ship Node's `Buffer` or `crypto.getRandomValues`, both of which dsteem needs internally (Buffer for asset/key serialization; secure-random for ECDSA signing). Install two polyfills and import them **before** any `@blazeapps/dsteem` import:
+
+```sh
+npm install @blazeapps/dsteem buffer react-native-get-random-values
+```
+
+At the very top of your app entry (`index.js` or `App.tsx`), before any other import:
+
+```js
+import 'react-native-get-random-values'
+import {Buffer} from 'buffer'
+global.Buffer = Buffer
+```
+
+Then use the library normally:
+
+```ts
+import {Client, PrivateKey} from '@blazeapps/dsteem'
+
+const client = new Client('https://api.steemit.com')
+const key = PrivateKey.fromString(WIF_FROM_SECURE_STORE)
+await client.broadcast.vote({voter: 'me', author: 'a', permlink: 'b', weight: 10000}, key)
+```
+
+The package's [`exports`](package.json) map includes a `"react-native"` condition (added in v0.12.1) that points Metro at the CJS build, so no `metro.config.js` tweaks are needed. Verified on Expo SDK 50+.
+
 ## Browser Testing Harness
 
 A static HTML harness for **manual, form-driven testing of every dsteem operation** lives in [`Browser Testing/`](./Browser%20Testing/) and is deployed alongside the docs:
